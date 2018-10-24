@@ -1,0 +1,90 @@
+body {
+    overflow-y: scroll;
+}
+
+.form .error{
+    font-family:'Open Sans', sans-serif;
+    font-weight: 300;
+    color: red;
+    display: none;
+}
+
+
+.form .row-item{
+    padding-bottom: 10px;
+}
+
+.form-profile, .form-login {
+    padding: 20px;
+    width: 75%;
+}
+
+.form .txt {
+    width: 100%;
+}
+
+.how-it-work .short-introduce .title {
+    font-size: 2em;
+}
+
+.how-it-work .right-intro{
+    width:20%;
+    border: none;
+}
+
+.how-it-work .left-intro{
+    width: 75%;
+}
+
+#dropzone {
+    height: 100px;
+    width: 100%;
+    border: 1px solid black;
+
+}
+
+.dz-success-mark, .dz-error-mark {
+    display: none;
+}
+
+.nav-tabs > li.active > a {
+    font-weight: bold;
+    color: #f79321;
+}
+
+.box-list-comment .comment-item{
+    padding: 10px;
+}
+
+
+.btn-pascal{
+    border-width: 0;
+    color: #FFF;
+    background: #f79321; /* Old browsers */
+    border-radius: 0;
+}
+.btn-pascal-red{
+    border-width: 0;
+    color: #FFF;
+    background: red; /* Old browsers */
+    border-radius: 0;
+}
+
+
+#flash {
+    padding: 10px;
+    border: 2px solid #f79321;
+    margin-bottom:10px;
+    background: white;
+}
+
+.info-box {
+    background-color: white;
+    padding: 20px;
+}
+
+#footer .footer-menu > ul:first-child {
+    width: 100%;
+    list-style: square;
+    padding-left: 30px;
+}
