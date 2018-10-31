@@ -161,6 +161,7 @@ return [
         App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        OwenIt\Auditing\AuditingServiceProvider::class,
     ],
 
     /*

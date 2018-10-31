@@ -28,16 +28,16 @@
         <div class="how-it-work">
             <div class="grid_12 short-introduce">
                 <h3 class="rs title"><span class="fc-black">PascalCoin DAO</span></h3>
-                <p>The decentralized autonomous organization website for the PascalCoin project.</p>
+                <p>The decentralized autonomous organization website for the PascalCoin proposal.</p>
                 <div class="box-introduce">
                     <div class="wrap-2col">
                         <div class="left-intro">
-                            <h4 class="rs title-intro">Start your PascalCoin project!</h4>
+                            <h4 class="rs title-intro">Start your PascalCoin proposal!</h4>
 
                             <p class="rs pb20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat vel erat quis hendrerit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut enim purus, egestas nec auctor ac, volutpat at est. Curabitur ex turpis, porttitor id dolor tincidunt, congue interdum velit.</p>
                             <p class="rs pb20">In ultricies, massa vel euismod tincidunt, nibh arcu maximus velit, eu egestas nisl massa id massa. Fusce ut velit felis. Donec ultricies lorem erat, nec porttitor libero rutrum eu. Cras auctor lacus quam, in facilisis felis faucibus vitae. Proin a metus dictum, dignissim enim sed, accumsan eros. Vivamus vel fermentum quam, in pretium ante. Mauris eget mattis elit. Cras id consectetur neque.</p>
-                            <a class="btn btn-red btn-star-project{{\Auth::check() ? '' : ' sys_show_popup_login'}}" href="{{route('profile')}}?area=project">
-                                <span class="lbl">Start project</span>
+                            <a class="btn btn-red btn-star-proposal{{\Auth::check() ? '' : ' sys_show_popup_login'}}" href="{{route('profile_dashboard')}}?area=proposal">
+                                <span class="lbl">Start proposal</span>
                             </a>
                             <!--p class="rs ta-c description-btn">Morbi hendrerit malesuada nulla</p-->
                         </div>
@@ -50,37 +50,37 @@
         </div>
     </div>
 
-    <div class="home-popular-project">
+    <div class="home-popular-proposal">
         <div class="container_12">
             <div class="grid_12 wrap-title">
-                <h2 class="common-title">Projects</h2>
+                <h2 class="common-title">Proposals</h2>
                 <a class="be-fc-orange" href="category.html">View all</a>
             </div>
             <div class="clear"></div>
-            <div class="lst-popular-project clearfix">
-                @foreach($projects as $project)
+            <div class="lst-popular-proposal clearfix">
+                @foreach($proposals as $proposal)
                 <div class="grid_3">
-                    <div class="project-short sml-thumb">
-                        <div class="top-project-info">
+                    <div class="proposal-short sml-thumb">
+                        <div class="top-proposal-info">
                             <div class="content-info-short clearfix">
                                 <a href="#" class="thumb-img">
-                                    <img src="/storage/{{str_replace('public', '', $project->logo)}}" alt="$TITLE">
+                                    <img src="/storage/{{str_replace('public', '', $proposal->logo)}}" alt="$TITLE">
                                 </a>
                                 <div class="wrap-short-detail">
-                                    <h3 class="rs acticle-title"><a class="be-fc-orange" href="{{route('project_detail', ['project' => $project])}}">{{$project->title}}</a></h3>
-                                    <p class="rs tiny-desc">by <a href="profile.html" class="fw-b fc-gray be-fc-orange">{{$project->user->organization_name}}</a></p>
-                                    <p class="rs title-description">{{substr($project->description, 0, 200)}}..</p>
-                                    <p class="rs project-location">
+                                    <h3 class="rs acticle-title"><a class="be-fc-orange" href="{{route('proposal_detail', ['proposal' => $proposal])}}">{{$proposal->title}}</a></h3>
+                                    <p class="rs tiny-desc">by <a href="profile.html" class="fw-b fc-gray be-fc-orange">{{$proposal->user->organization_name}}</a></p>
+                                    <p class="rs title-description">{{substr($proposal->description, 0, 200)}}..</p>
+                                    <p class="rs proposal-location">
                                         <i class="icon iLocation"></i>
-                                        {{$project->user->country}}
+                                        {{$proposal->user->country}}
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div><!--end: .grid_3 > .project-short-->
+                </div><!--end: .grid_3 > .proposal-short-->
                 @endforeach
             </div>
         </div>
-    </div><!--end: .home-popular-project -->
+    </div><!--end: .home-popular-proposal -->
 @endsection

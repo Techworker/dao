@@ -227,7 +227,4 @@ $(function(){
         name:"alternate-menu",
         source:"#right-menu"
     });
-    if ($("#sys-nav-menu-blog").length > 0) {
-        selectnav("sys-nav-menu-blog");
-    }
 });

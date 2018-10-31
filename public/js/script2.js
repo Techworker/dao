@@ -22,13 +22,14 @@ $(function(){
 
     $("#register-form").on('submit', function(e) {
         var data = {
+            name: $("#register_name").val(),
             email: $("#register_email").val(),
             password: $("#register_password").val(),
             password_confirmation: $("#register_password_confirmation").val()
         };
 
         $.post('/register', data).then(function(a,b,c) {
-            window.location.href = '/profile';
+            window.location.href = '/profile/dashboard';
         }).fail(function(response) {
             var json = $.parseJSON(response.responseText);
             $("#register_error_email, #register_error_password").hide();
@@ -71,65 +72,30 @@ $(function(){
         })
     })
 
-
-    $("#form-login").on('submit', function(e) {
-        var data = {
-        };
-
-        if($('#user-password').val() !== '') {
-            data.password = $("#user-password").val();
-            data.password_confirmation = $("#user-password-confirmation").val();
-        }
-
-        if($("#user-email").val() !== $("#user-email").data('original')) {
-            data.email = $("#user-email").val();
-        }
-
-        if(data.email || data.password) {
-            $.post('/profile/login', data).then(function (a, b, c) {
-                window.location.href = '/profile?area=login&_=' + Math.random().toString(36).substr(2, 9);
-            }).fail(function (response) {
-                $.each(data, function (field, value) {
-                    $("#user-error-" + field.replace('_', '-')).hide();
-                });
-
-                var json = $.parseJSON(response.responseText);
-                $.each(json.errors, function (field, messages) {
-                    $("#user-error-" + field.replace('_', '-')).show().html(messages[0]);
-                });
-            });
-        }
-
-        e.preventDefault();
-        return false;
-    });
-
     var userAvatar = null;
     $('input#user-avatar').on('change', function(event) {
         userAvatar = event.target.files[0];
     });
 
-    $("#form-profile").on('submit', function(e) {
+
+    $("#form-login").on('submit', function(e) {
         var data = new FormData();
-
-        data.append('bio', $("#user-bio").val());
-        data.append('first_name', $("#user-first-name").val());
-        data.append('last_name', $("#user-last-name").val());
-        data.append('organization_name', $("#user-organization-name").val());
-        data.append('street', $("#user-street").val());
-        data.append('postal_code', $("#user-postal-code").val());
-        data.append('city', $("#user-city").val());
-        data.append('address_line_1', $("#user-address-line-1").val());
-        data.append('address_line_2', $("#user-address-line-2").val());
-        data.append('address_line_3', $("#user-address-line-3").val());
-        data.append('country', $("#user-country").val());
-
+        data.append('name', $('#user-name').val());
         if(userAvatar !== null) {
             data.append('avatar', userAvatar);
         }
 
+        if($('#user-password').val() !== '') {
+            data.append('password', $("#user-password").val());
+            data.append('password_confirmation', $("#user-password-confirmation").val());
+        }
+
+        if($("#user-email").val() !== $("#user-email").data('original')) {
+            data.append('email', $("#user-email").val());
+        }
+
         $.ajax({
-            url: '/profile/contact',
+            url: '/profile/login',
             type: 'POST',
             data: data,
             cache: false,
@@ -138,7 +104,7 @@ $(function(){
             contentType: false, // Set content type to false as jQuery will tell the server its a query string request
             success: function()
             {
-                window.location.href = '/profile?area=contact&_=' + Math.random().toString(36).substr(2, 9);
+                window.location.href = '/profile/login'
             },
             error: function(response)
             {
@@ -157,12 +123,73 @@ $(function(){
         return false;
     });
 
+    var contractorLogo = null;
+    $('input#contractor-logo').on('change', function(event) {
+        contractorLogo = event.target.files[0];
+    });
+
+    $("#form-contractor").on('submit', function(e) {
+        var data = new FormData();
+
+        data.append('id', $("#contractor-id").val());
+        data.append('bio', $("#contractor-bio").val());
+        data.append('first_name', $("#contractor-first-name").val());
+        data.append('last_name', $("#contractor-last-name").val());
+        data.append('company_name', $("#contractor-company-name").val());
+        data.append('street', $("#contractor-street").val());
+        data.append('house_number', $("#contractor-house-number").val());
+        data.append('postal_code', $("#contractor-postal-code").val());
+        data.append('city', $("#contractor-city").val());
+        data.append('address_line_1', $("#contractor-address-line-1").val());
+        data.append('address_line_2', $("#contractor-address-line-2").val());
+        data.append('address_line_3', $("#contractor-address-line-3").val());
+        data.append('contact_email', $("#contractor-contact-email").val());
+        data.append('contact_phone', $("#contractor-contact-phone").val());
+        data.append('contact_fax', $("#contractor-contact-fax").val());
+        data.append('country', $("#contractor-country").val());
+
+        if(contractorLogo !== null) {
+            data.append('logo', contractorLogo);
+        }
+
+        $.ajax({
+            url: '/profile/contractor',
+            type: 'POST',
+            data: data,
+            cache: false,
+            dataType: 'json',
+            processData: false, // Don't process the files
+            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+            success: function()
+            {
+                window.location.href = '/profile/contractor'
+            },
+            error: function(response)
+            {
+                $.each(data, function(field, value) {
+                    $("#contractor-error-" + field.replace('_', '-')).hide();
+                });
+
+                var json = $.parseJSON(response.responseText);
+                $.each(json.errors, function(field, messages) {
+                    $("#contractor-error-" + field.replace('_', '-')).show().html(messages[0]);
+                });
+            }
+        });
+
+        e.preventDefault();
+        return false;
+    });
+
     var kycFile = null;
-    $('input[type=file]').on('change', function(event) {
+    $('input#kyc-file').on('change', function(event) {
         kycFile = event.target.files[0];
     });
-    $("#form-documents").on('submit', function(e) {
+
+    $("#form-kyc").on('submit', function(e) {
         var data = new FormData();
+        data.append('id', $("#kyc-id").val());
+        data.append('contractor_id', $("#kyc-contractor-id").val());
         data.append('title', $("#kyc-title").val());
         data.append('description', $("#kyc-description").val());
         data.append('file', kycFile);
@@ -177,13 +204,18 @@ $(function(){
             contentType: false, // Set content type to false as jQuery will tell the server its a query string request
             success: function(data, textStatus, jqXHR)
             {
-                window.location.href = '/profile?area=kyc&_=' + Math.random().toString(36).substr(2, 9);;
+                window.location.href = '/profile/contractor'
             },
-            error: function(jqXHR, textStatus, errorThrown)
+            error: function(response)
             {
-                // Handle errors here
-                console.log('ERRORS: ' + textStatus);
-                // STOP LOADING SPINNER
+                $.each(data, function(field, value) {
+                    $("#kyc-error-" + field.replace('_', '-')).hide();
+                });
+
+                var json = $.parseJSON(response.responseText);
+                $.each(json.errors, function(field, messages) {
+                    $("#kyc-error-" + field.replace('_', '-')).show().html(messages[0]);
+                });
             }
         });
 
@@ -198,34 +230,6 @@ $(function(){
                 window.location.reload();
             });
         }
-    });
-
-    var kycFormOpen = false;
-    $("#show-kyc-form").on('click', function() {
-        var alternate = $("#show-kyc-form").data('alternate-text');
-        var current = $("#show-kyc-form").text();
-        $("#show-kyc-form").text(alternate);
-        $("#show-kyc-form").data('alternate-text', current);
-        if(kycFormOpen) {
-            $("#form-documents").slideUp();
-        } else {
-            $("#form-documents").slideDown();
-        }
-        kycFormOpen = !kycFormOpen;
-    });
-
-    var projFormOpen = false;
-    $("#show-project-form").on('click', function() {
-        var alternate = $("#show-project-form").data('alternate-text');
-        var current = $("#show-project-form").text();
-        $("#show-project-form").text(alternate);
-        $("#show-project-form").data('alternate-text', current);
-        if(kycFormOpen) {
-            $("#form-project").slideUp();
-        } else {
-            $("#form-project").slideDown();
-        }
-        kycFormOpen = !kycFormOpen;
     });
 
     var commentFormOpen = false;
@@ -243,24 +247,24 @@ $(function(){
     });
 
 
-    var projectLogoFile = null;
-    $('input#project-logo').on('change', function(event) {
-        projectLogoFile = event.target.files[0];
+    var proposalLogoFile = null;
+    $('input#proposal-logo').on('change', function(event) {
+        proposalLogoFile = event.target.files[0];
     });
-    $("#form-project").on('submit', function(e) {
+    $("#form-proposal").on('submit', function(e) {
         var data = new FormData();
-        data.append('title', $("#project-title").val());
-        data.append('description', $("#project-description").val());
-        data.append('costs', $("#project-costs").val());
-        data.append('pasa', $("#project-pasa").val());
-        data.append('website', $("#project-website").val());
-        data.append('source_code', $("#project-source-code").val());
-        data.append('logo', projectLogoFile);
+        data.append('id', $("#proposal-id").val());
+        data.append('contractor_id', $("#proposal-contractor-id").val());
+        data.append('title', $("#proposal-title").val());
+        data.append('status', $("#proposal-status").val());
+        data.append('description', $("#proposal-description").val());
+        data.append('proposed_value', $("#proposal-proposed-value").val());
+        data.append('proposed_currency', $("#proposal-proposed-currency").val());
+        data.append('website', $("#proposal-website").val());
+        data.append('source_code', $("#proposal-source-code").val());
+        data.append('logo', proposalLogoFile);
 
-        var url = '/profile/project';
-        if($('#project-id').length > 0) {
-            url = '/profile/project/' + $('#project-id').val();
-        }
+        var url = '/profile/proposal';
 
         $.ajax({
             url: url,
@@ -272,7 +276,7 @@ $(function(){
             contentType: false, // Set content type to false as jQuery will tell the server its a query string request
             success: function()
             {
-                window.location.href = '/profile?area=project&_=' + Math.random().toString(36).substr(2, 9);;
+                window.location.href = '/profile/contractor';
             },
             error: function(response)
             {

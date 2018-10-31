@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/jquery.sidr.light.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"/>
@@ -45,13 +46,13 @@
                 <div class="grid_12">
                     <nav class="top-menu">
                         <ul id="main-menu" class="nav nav-horizontal clearfix">
-                            <li class="active"><a href="{{route('home')}}">Home</a></li>
+                            <li class="active"><a href="{{\App\Http\Actions\HomeAction::route()}}">Home</a></li>
                             <li class="sep"></li>
-                            <li><a href="{{route('projects')}}">Projects</a></li>
+                            <li><a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}">Proposals</a></li>
                             <li class="sep"></li>
-                            <li><a href="{{route('transparency')}}">Transparency</a></li>
+                            <li><a href="#">Transparency</a></li>
                             <li class="sep"></li>
-                            <li><a href="{{route('contact')}}">Contact</a></li>
+                            <li><a href="{{\App\Http\Actions\ContactAction::route()}}">Contact</a></li>
                         </ul>
                         <a id="btn-toogle-menu" class="btn-toogle-menu" href="#alternate-menu">
                             <span class="line-bar"></span>
@@ -60,7 +61,7 @@
                         </a>
                         <div id="right-menu">
                             <ul class="alternate-menu">
-                                <li><a href="{{route('home')}}">Home</a></li>
+                                <li><a href="{{\App\Http\Actions\HomeAction::route()}}">Home</a></li>
                                 <li><a href="all-pages.html">All Pages</a></li>
                                 <li><a href="how-it-work.html">Help</a></li>
                                 <li><a href="contact.html">Contact us</a></li>
@@ -86,7 +87,7 @@
                     <div class="form-search">
                         <form action="#">
                             <label for="sys_txt_keyword">
-                                <input id="sys_txt_keyword" class="txt-keyword" type="text" placeholder="Search projects"/>
+                                <input id="sys_txt_keyword" class="txt-keyword" type="text" placeholder="Search proposals"/>
                             </label>
                             <button class="btn-search" type="reset"><i class="icon iMagnifier"></i></button>
                             <button class="btn-reset-keyword" type="reset"><i class="icon iXHover"></i></button>
@@ -99,18 +100,18 @@
                     </h1>
                     <div class="main-nav clearfix">
                         <div class="nav-item">
-                            <a href="{{route('projects')}}" class="nav-title">Discover</a>
-                            <p class="rs nav-description">Projects</p>
+                            <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}" class="nav-title">Discover</a>
+                            <p class="rs nav-description">Proposals</p>
                         </div>
                         <span class="sep"></span>
                         <div class="nav-item">
-                            <a href="{{route('profile')}}?area=project" class="nav-title" data-login="{{ auth::check() ? 'true' : 'false'}}">Start</a>
-                            <p class="rs nav-description">Project</p>
+                            <a href="{{\App\Http\Actions\Profile\DashboardAction::route()}}?area=proposal" class="nav-title" data-login="{{ auth::check() ? 'true' : 'false'}}">Start</a>
+                            <p class="rs nav-description">Proposal</p>
                         </div>
                         @if(\Auth::check())
                         <span class="sep"></span>
                         <div class="nav-item">
-                            <a href="{{route('profile')}}?area=contact" class="nav-title" data-login="{{ auth::check() ? 'true' : 'false'}}">Profile</a>
+                            <a href="{{\App\Http\Actions\Profile\DashboardAction::route()}}?area=contact" class="nav-title" data-login="{{ auth::check() ? 'true' : 'false'}}">Profile</a>
                             <p class="rs nav-description">Your Profile</p>
                         </div>
                         @endif
@@ -126,13 +127,13 @@
         <div class="container_12 main-footer">
             <div class="grid_4 about-us">
                 <h3 class="rs title">About</h3>
-                <p class="rs description">The decentralized autonomous organization website for the PascalCoin project.</p>
+                <p class="rs description">The decentralized autonomous organization website for the PascalCoin proposal.</p>
                 <p class="rs email"><a class="fc-default  be-fc-orange" href="mailto:dao@pascalcoin.org">dao@pascalcoin.org</a></p>
             </div><!--end: .contact-info -->
             <div class="grid_4 email-newsletter">
                 <h3 class="rs title">Newsletter Signup</h3>
                 <div class="inner">
-                    <p class="rs description">Let us know your email and you'll be informed of new projects regulary.</p>
+                    <p class="rs description">Let us know your email and you'll be informed of new proposals regulary.</p>
                     <form action="#">
                         <div class="form form-email">
                             <label class="lbl" for="txt-email">
@@ -148,13 +149,13 @@
                 <div class="footer-menu">
                     <ul class="rs">
                         <li><a class="be-fc-orange" href="#">What is DAO?</a></li>
-                        <li><a class="be-fc-orange" href="#">Start a project</a></li>
+                        <li><a class="be-fc-orange" href="#">Start a proposal</a></li>
                         <li><a class="be-fc-orange" href="#">Project guidelines</a></li>
-                        <li><a class="be-fc-orange" href="#">Proposed projects</a></li>
-                        <li><a class="be-fc-orange" href="#">Accpeted projects</a></li>
-                        <li><a class="be-fc-orange" href="#">Active projects</a></li>
-                        <li><a class="be-fc-orange" href="#">Rejected projects</a></li>
-                        <li><a class="be-fc-orange" href="#">Finished projects</a></li>
+                        <li><a class="be-fc-orange" href="#">Proposed proposals</a></li>
+                        <li><a class="be-fc-orange" href="#">Accpeted proposals</a></li>
+                        <li><a class="be-fc-orange" href="#">Active proposals</a></li>
+                        <li><a class="be-fc-orange" href="#">Rejected proposals</a></li>
+                        <li><a class="be-fc-orange" href="#">Finished proposals</a></li>
                     </ul>
                     <div class="clear"></div>
                 </div>
@@ -164,7 +165,7 @@
         <div class="copyright">
             <div class="container_12">
                 <div class="grid_12">
-                    <a class="logo-footer" href="{{route('home')}}"><img src="images/logo-2.png" alt="$SITE_NAME"/></a>
+                    <a class="logo-footer" href="{{\App\Http\Actions\HomeAction::route()}}"><img src="{{asset('images/logo.png')}}" alt="$SITE_NAME"/></a>
                     <p class="rs term-privacy">
                         <a class="fw-b be-fc-orange" href="single.html">Terms & Conditions</a>
                         <span class="sep">/</span>
@@ -172,7 +173,7 @@
                         <span class="sep">/</span>
                         <a class="fw-b be-fc-orange" href="#">FAQ</a>
                     </p>
-                    <p class="rs ta-c fc-gray-dark site-copyright">HTML by <a href="http://megadrupal.com" title="Drupal Developers" target="_blank">MegaDrupal</a>. Designed by <a href="http://bestwebsoft.com/" title="Web development company" target="_blank">BestWebSoft</a>.</p>
+                    <p class="rs ta-c fc-gray-dark site-copyright">PascalCoin.org</p>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -192,9 +193,13 @@
                 <form action="#" id="register-form">
                     <h3 class="rs title-form">Register</h3>
                     <div class="box-white">
-                        <h4 class="rs title-box">Ideas for a PascalCoin project?</h4>
+                        <h4 class="rs title-box">Ideas for a PascalCoin proposal?</h4>
                         <p class="rs">An account is required to continue.</p>
                         <div class="form-action">
+                            <label for="register_name">
+                                <p class="rs error" id="register_error_name">Err!</p>
+                                <input id="register_name" class="txt fill-width" type="text" placeholder="Your Name"/>
+                            </label>
                             <label for="register_email">
                                 <p class="rs error" id="register_error_email">Err!</p>
                                 <input id="register_email" class="txt fill-width" type="email" placeholder="Your E-Mail address"/>

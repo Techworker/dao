@@ -88,3 +88,11 @@ body {
     list-style: square;
     padding-left: 30px;
 }
+
+.btn-action-small {
+    padding: 3px !important;
+    background: #e0e0e0;
+    color: black;
+    border-width: 0;
+    border-radius: 0;
+}

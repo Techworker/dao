@@ -4,12 +4,12 @@
 
     <div class="layout-2cols">
     <div class="content grid_8">
-        <div class="project-detail">
-            <h2 class="rs project-title">{{$localUser->first_name}} {{$localUser->last_name}}</h2>
+        <div class="proposal-detail">
+            <h2 class="rs proposal-title">{{$localUser->first_name}} {{$localUser->last_name}}</h2>
             <p class="rs post-by"><a href="#">{{ $localUser->organization_name}}</a></p>
-            <div class="project-short big-thumb">
+            <div class="proposal-short big-thumb">
                 @if($localUser->avatar !== null)
-                <div class="top-project-info">
+                <div class="top-proposal-info">
                     <div class="content-info-short clearfix">
                         <div class="thumb-img">
                             <div class="rslides_container">
@@ -21,9 +21,9 @@
                             </div>
                         </div>
                     </div>
-                </div><!--end: .top-project-info -->
+                </div><!--end: .top-proposal-info -->
                 @endif
-                <div class="bottom-project-info clearfix">
+                <div class="bottom-proposal-info clearfix">
                     <div class="group-fee clearfix" style="height: 70px;">
                         <div class="fee-item">
                             <p class="rs lbl">Projects</p>
@@ -38,7 +38,7 @@
                     <div class="clear"></div>
                 </div>
             </div>
-            <div class="project-tab-detail tabbable accordion">
+            <div class="proposal-tab-detail tabbable accordion">
                 <ul class="nav nav-tabs clearfix">
                     <li class="active"><a href="#">About</a></li>
                 </ul>
@@ -65,7 +65,7 @@
                         </div><!--end: .tab-pane(About) -->
                     </div>
                 </div>
-            </div><!--end: .project-tab-detail -->
+            </div><!--end: .proposal-tab-detail -->
         </div>
     </div><!--end: .content -->
     <div class="clear"></div>

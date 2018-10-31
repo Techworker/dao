@@ -7,6 +7,7 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\Cards\Help;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Remipou\NovaPageManager\PageResource;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -55,7 +56,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Help,
+            new \Vink\CacheCard\CacheCard(),
+            new \Coreproc\NovaSystemInfoCard\SystemInfoCard(),
+            new \GijsG\SystemResources\SystemResources('ram'),
+            new \GijsG\SystemResources\SystemResources('cpu'),
         ];
     }
 
@@ -66,7 +70,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            new \Vyuldashev\NovaPermission\NovaPermissionTool(),
+            new \Spatie\BackupTool\BackupTool(),
+            new \Sbine\RouteViewer\RouteViewer(),
+        ];
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use \App\Http\Actions;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,27 +12,43 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', pascRoute(Actions\HomeAction::class));
 
-Route::get('/', 'IndexController@index')->name('home');
-Route::get('/projects', 'IndexController@index')->name('projects');
-Route::get('/projects/{project}', 'IndexController@project')->name('project_detail');
-Route::get('/users/{user}', 'IndexController@user')->name('user_detail');
+Route::get('/proposals/{status}', pascRoute(Actions\Proposal\ShowListAction::class));
+Route::get('/proposals/detail/{slug}', pascRoute(Actions\Proposal\ShowDetailAction::class));
 
-Route::post('/projects/comment/{project}', 'IndexController@addComment')->name('project_add_comment')->middleware('auth');
+Route::get('/profile/dashboard', pascRoute(Actions\Profile\DashboardAction::class));
 
-Route::get ('/profile', 'IndexController@profile')->name('profile')->middleware('auth');
+Route::get  ('/profile/login', pascRoute(Actions\Profile\ShowLoginAction::class));
+#Route::post ('/profile/login', pascRoute(Actions\Profile\Api\SaveLoginAction::class));
 
-Route::post('/profile/project', 'IndexController@projectAdd')->name('profile_project_add')->middleware('auth');
-Route::post('/profile/project/{id}', 'IndexController@projectUpdate')->name('profile_project_edit')->middleware('auth');
+// contractor
+Route::get  ('/profile/contractor', pascRoute(Actions\Profile\ShowContractorsAction::class));
+Route::get  ('/profile/contractor/create', pascRoute(Actions\Profile\ShowCreateContractorAction::class));
+Route::get  ('/profile/contractor/{contractor}', pascRoute(Actions\Profile\ShowUpdateContractorAction::class));
+Route::POST ('/profile/contractor', pascRoute(Actions\Profile\Api\SaveContractorAction::class));
 
-Route::post('/profile/kyc', 'IndexController@kycAdd')->name('profile_kyc_add')->middleware('auth');
-Route::get ('/profile/kyc/remove/{id}', 'IndexController@kycRemove')->name('profile_kyc_remove')->middleware('auth');
+// proposal
+Route::get  ('/profile/proposal', pascRoute(Actions\Proposal\ShowListAction::class));
+Route::get  ('/profile/proposal/create', pascRoute(Actions\Proposal\ShowCreateFormAction::class));
+Route::get  ('/profile/proposal/{proposal}', pascRoute(Actions\Proposal\ShowUpdateFormAction::class));
+Route::POST ('/profile/proposal', pascRoute(Actions\Proposal\Api\SaveProposal::class));
 
-Route::post('/profile/contact', 'IndexController@profileUpdateContact')->name('profile_update_contact')->middleware('auth');
-Route::post('/profile/login', 'IndexController@profileUpdateLogin')->name('profile_update_login')->middleware('auth');
+Route::get('/contact', pascRoute(Actions\ContactAction::class));
+
+/*
+// proposal
+Route::get  ('/profile/kyc', 'KycController@proposals')->name('profile_kyc');
+Route::get  ('/profile/kyc/create', 'KycController@createKyc')->name('profile_kyc_create');
+Route::get  ('/profile/kyc/{kyc}', 'KycController@updateKyc')->name('profile_kyc_update');
+Route::POST ('/profile/kyc', 'KycController@createUpdateKyc')->name('profile_kyc_create_update');
+
+// contractor
+Route::get('/contractor/{slug}', 'IndexController@contractor')->name('contractor');
+
+Route::post('/profile/contact', 'IndexController@profileUpdateContact')->name('profile_update_contact');
 
 Route::get('/transparency', 'IndexController@transparency')->name('transparency');
 Route::get('/contact', 'IndexController@contact')->name('contact');
-
-
+*/
 Auth::routes();
