@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\Proposal;
 
-use App\Http\Actions\AbstractAction;
+use App\Http\AbstractAction;
 use App\Proposal;
 
 class ShowListAction extends AbstractAction
@@ -15,7 +15,9 @@ class ShowListAction extends AbstractAction
 
         $counts = [];
         foreach(Proposal::STATUS_TYPES as $key => $label) {
-            $counts[$key] = Proposal::currentStatus($key)->count();
+            if($key !== Proposal::STATUS_DRAFT) {
+                $counts[$key] = Proposal::currentStatus($key)->count();
+            }
         }
         $counts['all'] = array_sum($counts);
 
@@ -30,7 +32,7 @@ class ShowListAction extends AbstractAction
             $proposals[$status] = Proposal::currentStatus($status)->orderBy('created_at', 'DESC')->get();
         }
 
-        return view('proposals2', [
+        return view('proposals', [
             'proposals' => $proposals,
             'counts' => $counts,
             'status' => $status

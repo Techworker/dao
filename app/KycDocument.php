@@ -6,19 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStatus\HasStatuses;
 
+/**
+ * Class KycDocument
+ *
+ * Holds a single KYC document.
+ */
 class KycDocument extends Model
 {
     use SoftDeletes, HasStatuses;
 
-    public const STATUS = [
-        'new' => 'New',
-        'accepted' => 'Accepted',
-        'declined' => 'Declined'
-    ];
+    public const TYPE_PASSPORT = 'passport';
+    public const TYPE_ADDRESS_VERIFICATION = 'address_verification';
 
-    const STATUS_NEW = 'new';
-    const STATUS_ACCEPTED = 'accepted';
-    const STATUS_DECLINED = 'declined';
+    public const TYPES = [
+        self::TYPE_PASSPORT => 'Passport',
+        self::TYPE_ADDRESS_VERIFICATION => 'Address verification'
+    ];
 
     protected $dates = [
         'created_at',
@@ -27,7 +30,7 @@ class KycDocument extends Model
     ];
 
     /**
-     * Gets the user that created the proposal.
+     * Gets the contractor that owns the KYC documents.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -35,6 +38,4 @@ class KycDocument extends Model
     {
         return $this->belongsTo(Contractor::class);
     }
-
-
 }

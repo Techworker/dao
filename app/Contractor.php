@@ -8,6 +8,11 @@ use Spatie\ModelStatus\HasStatuses;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
+/**
+ * Class Contractor
+ *
+ * Holds data of a contractor.
+ */
 class Contractor extends Model
 {
     use SoftDeletes, HasSlug, HasStatuses;
@@ -26,7 +31,7 @@ class Contractor extends Model
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['id', 'first_name', 'last_name', 'company_name'])
+            ->generateSlugsFrom(['first_name', 'last_name', 'company_name'])
             ->saveSlugsTo('slug');
     }
 
@@ -45,7 +50,7 @@ class Contractor extends Model
     ];
 
     /**
-     * Gets the user that created the proposal.
+     * Gets the user that created the contractor.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -55,7 +60,7 @@ class Contractor extends Model
     }
 
     /**
-     * Gets various contact details.
+     * Gets all contact details.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -65,7 +70,7 @@ class Contractor extends Model
     }
 
     /**
-     * Gets various contact details.
+     * Gets the addresses of a contractor.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -74,21 +79,41 @@ class Contractor extends Model
         return $this->hasMany(Address::class);
     }
 
+    /**
+     * Gets the list of proposals a contractor proposed.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function proposals()
     {
         return $this->hasMany(Proposal::class, 'proposer_contractor_id');
     }
 
+    /**
+     * Gets the list of contracts a contractor works / has worked on.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function contracts()
     {
-        return $this->belongsToMany(Contract::class)->using(ContractContrator::class)->withPivot('type', 'percent', 'role', 'role_description', 'pasa', 'payload');
+        return $this->hasMany(Contract::class);
     }
 
+    /**
+     * Gets the list of KYC documents for the contractor record.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function kycDocuments()
     {
         return $this->hasMany(KycDocument::class);
     }
 
+    /**
+     * Gets the name of the contractor.
+     *
+     * @return mixed|null|string
+     */
     public function publicName()
     {
         if($this->type === 'natural_person') {

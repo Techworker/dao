@@ -7,21 +7,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MoneyValue extends Model
 {
-    public const TYPES = [
-        'PASC_molina' => 'PASC (Molina)',
-        'BTC_satoshi' => 'BTC (satoshi)',
-        'BCH_satoshi' => 'BCH (satoshi)',
-        'AUD_cent' => 'AUD (cents)',
-        'USD_cent' => 'USD (cents)',
-        'EUR_cent' => 'EUR (cents)'
-    ];
-
     use SoftDeletes;
+
+    public const TYPE_PASC = 'PASC';
+    public const TYPE_BTC = 'BTC';
+    public const TYPE_BCH = 'BCH';
+    public const TYPE_AUD = 'AUD';
+    public const TYPE_USD = 'USD';
+    public const TYPE_EUR = 'EUR';
+
+    public const TYPES = [
+        self::TYPE_PASC => 'Pascal',
+        self::TYPE_BTC => 'Bitcoin',
+        self::TYPE_BCH => 'Bitcoin Cash',
+        self::TYPE_AUD => 'AUD',
+        self::TYPE_USD => 'USD',
+        self::TYPE_EUR => 'EUR'
+    ];
 
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at'
     ];
-
 }

@@ -20,6 +20,9 @@ class CreateCommentsTable extends Migration
             $table->mediumText('description');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('proposal_id')->references('id')->on('proposals');
         });
     }
 

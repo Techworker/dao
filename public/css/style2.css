@@ -1,5 +1,6 @@
 body {
     overflow-y: scroll;
+    box-sizing: border-box;
 }
 
 .form .error{
@@ -70,6 +71,11 @@ body {
     border-radius: 0;
 }
 
+.btn-small {
+    font-size: .8em;
+    padding: 0px 4px;
+}
+
 
 #flash {
     padding: 10px;
@@ -95,4 +101,19 @@ body {
     color: black;
     border-width: 0;
     border-radius: 0;
+}
+
+.form .txt {
+    border-radius: 0;
+}
+.nav-menu-blog {
+    border-radius: 0;
+}
+
+.proposal-short {
+    border-radius: 0;
+}
+
+.box-single-content {
+    padding: 10px !important;
 }

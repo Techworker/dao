@@ -14,3 +14,8 @@ function pascRoute(string $class, bool $exposed = true)
         'as' => call_user_func([$class, 'routeName'])
     ];
 }
+
+function countryName(string $isoCode)
+{
+    return config('countries')[$isoCode];
+}

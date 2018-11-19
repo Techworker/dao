@@ -5,6 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class ContactDetail
+ *
+ * Holds different types of contact details.
+ */
 class ContactDetail extends Model
 {
     use SoftDeletes;
@@ -28,17 +33,7 @@ class ContactDetail extends Model
     public const TYPE_OTHER = 'other';
 
     /**
-     * Gets the address.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function address()
-    {
-        return $this->belongsTo(Address::class);
-    }
-
-    /**
-     * Gets the contractor owning the details.
+     * Gets the contractor owning the contact details.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

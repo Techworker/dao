@@ -17,9 +17,11 @@ class CreateContactDetailsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('contractor_id');
             $table->enum('type', array_keys(\App\ContactDetail::TYPES));
-            $table->string('value');
+            $table->text('value');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('contractor_id')->references('id')->on('contractors');
         });
     }
 

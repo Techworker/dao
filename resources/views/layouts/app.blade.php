@@ -46,13 +46,13 @@
                 <div class="grid_12">
                     <nav class="top-menu">
                         <ul id="main-menu" class="nav nav-horizontal clearfix">
-                            <li class="active"><a href="{{\App\Http\Actions\HomeAction::route()}}">Home</a></li>
+                            <li {!! \App\Http\Actions\HomeAction::isActiveRoute() ? 'class="active"' : '' !!}><a href="{{\App\Http\Actions\HomeAction::route()}}">Home</a></li>
                             <li class="sep"></li>
-                            <li><a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}">Proposals</a></li>
+                            <li {!! \App\Http\Actions\Proposal\ShowListAction::isActiveRoute() || \App\Http\Actions\Proposal\ShowDetailAction::isActiveRoute() ? 'class="active"' : '' !!}><a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}">Proposals</a></li>
                             <li class="sep"></li>
                             <li><a href="#">Transparency</a></li>
                             <li class="sep"></li>
-                            <li><a href="{{\App\Http\Actions\ContactAction::route()}}">Contact</a></li>
+                            <li><a href="{{\App\Http\Actions\Contact\ShowAction::route()}}">Contact</a></li>
                         </ul>
                         <a id="btn-toogle-menu" class="btn-toogle-menu" href="#alternate-menu">
                             <span class="line-bar"></span>
@@ -74,7 +74,7 @@
         <div class="container_12 clearfix">
             <div class="grid_12 header-content">
                 <div id="sys_header_right" class="header-right">
-                    @if(!auth::check())
+                    @if(!Auth::check())
                     <div class="account-panel">
                         <a href="#" class="btn btn-pascal sys_show_popup_login">Register</a>
                         <a href="#" class="btn btn-pascal sys_show_popup_login">Login</a>
@@ -100,18 +100,13 @@
                     </h1>
                     <div class="main-nav clearfix">
                         <div class="nav-item">
-                            <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}" class="nav-title">Discover</a>
+                            <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}" class="nav-title {{\App\Http\Actions\Proposal\ShowListAction::isActiveRoute() || \App\Http\Actions\Proposal\ShowDetailAction::isActiveRoute() ? ' active' : ''}}">Discover</a>
                             <p class="rs nav-description">Proposals</p>
-                        </div>
-                        <span class="sep"></span>
-                        <div class="nav-item">
-                            <a href="{{\App\Http\Actions\Profile\DashboardAction::route()}}?area=proposal" class="nav-title" data-login="{{ auth::check() ? 'true' : 'false'}}">Start</a>
-                            <p class="rs nav-description">Proposal</p>
                         </div>
                         @if(\Auth::check())
                         <span class="sep"></span>
                         <div class="nav-item">
-                            <a href="{{\App\Http\Actions\Profile\DashboardAction::route()}}?area=contact" class="nav-title" data-login="{{ auth::check() ? 'true' : 'false'}}">Profile</a>
+                            <a href="{{\App\Http\Actions\Profile\DashboardAction::route()}}" class="nav-title" data-login="{{ auth::check() ? 'true' : 'false'}}">Profile</a>
                             <p class="rs nav-description">Your Profile</p>
                         </div>
                         @endif
@@ -148,10 +143,10 @@
                 <h3 class="rs title">Discover &amp; Create</h3>
                 <div class="footer-menu">
                     <ul class="rs">
-                        <li><a class="be-fc-orange" href="#">What is DAO?</a></li>
+                        <li><a class="be-fc-orange" href="#">What is the PascalCoin DAO?</a></li>
                         <li><a class="be-fc-orange" href="#">Start a proposal</a></li>
                         <li><a class="be-fc-orange" href="#">Project guidelines</a></li>
-                        <li><a class="be-fc-orange" href="#">Proposed proposals</a></li>
+                        <li><a class="be-fc-orange" href="#">Submitted proposals</a></li>
                         <li><a class="be-fc-orange" href="#">Accpeted proposals</a></li>
                         <li><a class="be-fc-orange" href="#">Active proposals</a></li>
                         <li><a class="be-fc-orange" href="#">Rejected proposals</a></li>

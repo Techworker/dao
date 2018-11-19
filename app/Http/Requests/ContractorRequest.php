@@ -25,15 +25,10 @@ class ContractorRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'company_name' => 'required|string',
-            'street' => 'required|string',
-            'postal_code' => 'required|string',
-            'city' => 'required|string',
-            'country' => [
+            'contractor-public-name' => 'required|string',
+            'contractor-country' => [
                 'required',
-                Rule::in(array_keys(include base_path('vendor/umpirsky/country-list/data/en/country.php')))
+                Rule::in(array_keys(config('countries')))
             ]
         ];
     }

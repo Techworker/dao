@@ -3,7 +3,7 @@
 namespace App\Http\Actions\Auth;
 
 use App\User;
-use App\Http\Actions\AbstractAction;
+use App\Http\AbstractAction;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
@@ -23,16 +23,14 @@ class RegisterController extends AbstractAction
     |
     */
 
-    use RegistersUsers {
-        register as _register;
-    }
+    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/profile';
 
     /**
      * Create a new controller instance.
@@ -73,22 +71,4 @@ class RegisterController extends AbstractAction
             'password' => Hash::make($data['password']),
         ]);
     }
-
-    /**
-     * Handle a registration request for the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function register(\Illuminate\Http\Request $request)
-    {
-        $response = $this->_register($request);
-        if($response instanceof RedirectResponse) {
-            $request->session()->flash('flash', 'Thanks for registering your account. Now complete your data please!');
-            return response()->json(['success' => true]);
-        }
-
-        return $response;
-    }
-
 }

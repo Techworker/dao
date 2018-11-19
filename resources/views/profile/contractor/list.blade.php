@@ -1,52 +1,45 @@
 <?php
-/** @var $contractor \App\Contractor */
+/** @var $contractors \App\Contractor[] */
+
 ?>
 
 @extends('profile')
 
 @section('sub')
-    <div style="padding: 20px;">
-        <h3 class="title">Contractors</h3>
-        <p>This displays a list of contractors for your account. Each contractor records can own multiple proposals and all invoicing will be made against these records.</p>
-        <div id="list-blog-ajax" class="list-last-post">
-            @forelse($contractors as $contractor)
-            <div class="media other-post-item">
-                <a href="#" class="thumb-left">
-                    <img src="{{asset('storage/' . $contractor->logo)}}" alt="$TITLE">
-                </a>
-                <div class="media-body">
-                    <h4 class="rs title-other-post">
-                        <a href="{{route('profile_contractor_update', ['contractor' => $contractor])}}" class="be-fc-orange fw-b">{{$contractor->first_name}} {{$contractor->last_name}} ({{$contractor->company_name}})</a>
-                    </h4>
-                    <p><b>{{$contractor->proposals->count()}} proposal(s)</b></p>
-                    <a href="{{route('contractor', ['slug' => $contractor->slug])}}">Public profile</a>
-                    <ul>
-                        @foreach($contractor->proposals as $proposal)
-                            <li>
-                                {{$proposal->title}} ({{$proposal->status}})<br />
-                                <a class="btn btn-submit-all btn-action-small" href="{{route('profile_proposal_update', ['proposal' => $proposal])}}">update</a>
-                                <a class="btn btn-submit-all btn-action-small" href="{{route('profile_proposal_update', ['proposal' => $proposal])}}">submit</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <p><b>{{$contractor->kycDocuments->count()}} KYC document(s)</b></p>
-                    <ul>
-                        @foreach($contractor->kycDocuments as $document)
-                            <li>
-                                {{$document->title}}
-                                [<a href="{{route('profile_kyc_update', ['kyc' => $document])}}">update</a>]
-                            </li>
-                        @endforeach
-                    </ul>
-
-                    <a class="btn btn-pascal btn-submit-all" href="{{route('profile_proposal_create')}}?contractor_id={{$contractor->id}}">Create proposal</a>
-                    <a class="btn btn-pascal btn-submit-all" href="{{route('profile_kyc_create')}}?contractor_id={{$contractor->id}}">Upload KYC document</a>
-                    <a class="btn btn-pascal btn-submit-all" href="{{route('profile_contractor_update', ['contractor' => $contractor])}}">Update Contractor</a>
+    <div class="row">
+        <div class="col-md-12">
+            <p>This is a list of your contractor records. Normally you just
+                need one contractor record.</p>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+            @foreach($contractors as $contractor)
+                <div class="col-md-6">
+                    <div class="card">
+                        @if($contractor->logo !== null)
+                            <img class="card-img-top" src="{{asset('storage/' . $contractor->logo)}}" alt="Card image cap">
+                        @endif
+                        <div class="card-body">
+                            <h5 class="card-title">{{$contractor->publicName()}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{$contractor->public_name}}</h6>
+                            <p class="card-text">
+                                <u>Status:</u> {{\App\Contractor::STATUS[$contractor->latestStatus()->name]}}<br />
+                                <u>Reason:</u> {{$contractor->latestStatus()->reason}}
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            <a href="{{\App\Http\Actions\Profile\Contractor\ShowFormAction::route(['contractor' => $contractor])}}" class="card-link">Update</a>
+                            <a href="{{\App\Http\Actions\Profile\Contractor\DeleteAction::route(['contractor' => $contractor])}}" class="card-link">Delete</a>
+                        </div>
+                    </div>
                 </div>
-            </div><!--end: .other-post-item -->
-            @empty
-                <a class="btn btn-pascal btn-submit-all" href="{{route('profile_contractor_create')}}">Create contractor record</a>
-            @endforelse
+            @endforeach
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-primary" href="{{\App\Http\Actions\Profile\Contractor\ShowFormAction::route()}}">Create new Contractor</a>
+            Notifications
         </div>
     </div>
+
 @endsection

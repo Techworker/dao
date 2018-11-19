@@ -32,13 +32,16 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractFeedback whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractFeedback whereInvoiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractFeedback whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class ContractFeedback extends \Eloquent {}
 }
 
 namespace App{
 /**
- * App\User
+ * Class User
+ * 
+ * Describes a user.
  *
  * @property int $id
  * @property string $name
@@ -52,10 +55,8 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contractor[] $contractors
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\KycDocument[] $kycDocuments
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Proposal[] $proposals
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\User onlyTrashed()
@@ -80,7 +81,9 @@ namespace App{
 
 namespace App{
 /**
- * App\ContactDetail
+ * Class ContactDetail
+ * 
+ * Holds different types of contact details.
  *
  * @property int $id
  * @property int $contractor_id
@@ -89,7 +92,6 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Address $address
  * @property-read \App\Contractor $contractor
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\ContactDetail onlyTrashed()
@@ -109,13 +111,21 @@ namespace App{
 
 namespace App{
 /**
- * App\Proposal
+ * Class Proposal
+ * 
+ * Describes the data of a proposal.
  *
  * @property int $id
+ * @property string|null $ident_code
  * @property int $proposer_contractor_id
  * @property string|null $slug
  * @property string|null $title
+ * @property string|null $intro
  * @property string|null $description
+ * @property string|null $description_html
+ * @property string|null $payment_proposal
+ * @property string|null $notes_contractor
+ * @property string|null $notes_internal
  * @property string|null $website
  * @property string|null $source_code
  * @property string|null $proposed_value
@@ -127,9 +137,9 @@ namespace App{
  * @property-read \App\Contractor $ProposerContractor
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contract[] $contracts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ProposalDocument[] $documents
  * @property-read mixed $status
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Payment[] $payments
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal currentStatus($names)
  * @method static bool|null forceDelete()
@@ -139,8 +149,14 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereDescriptionHtml($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereIdentCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereIntro($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereLogo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereNotesContractor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereNotesInternal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal wherePaymentProposal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereProposedCurrency($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereProposedValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereProposerContractorId($value)
@@ -149,6 +165,8 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereWebsite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal withAllTags($tags, $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal withAnyTags($tags, $type = null)
  * @method static \Illuminate\Database\Query\Builder|\App\Proposal withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Proposal withoutTrashed()
  */
@@ -157,7 +175,41 @@ namespace App{
 
 namespace App{
 /**
- * App\Address
+ * Class ProposalDocument
+ * 
+ * Describes a document attached to a proposal.
+ *
+ * @property int $id
+ * @property int $proposal_id
+ * @property string|null $title
+ * @property string|null $file
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $status
+ * @property-read \App\Proposal $proposal
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument currentStatus($names)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\ProposalDocument onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument otherCurrentStatus($names)
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereProposalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ProposalDocument withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\ProposalDocument withoutTrashed()
+ */
+	class ProposalDocument extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * Models for addresses.
  *
  * @property int $id
  * @property int $contractor_id
@@ -174,7 +226,6 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Contractor $contractor
- * @property-read \App\User $user
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Address onlyTrashed()
  * @method static bool|null restore()
@@ -200,27 +251,9 @@ namespace App{
 
 namespace App{
 /**
- * App\ContractContrator
- *
- * @property int $id
- * @property int $contract_id
- * @property int $contractor_id
- * @property string $type
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractContrator whereContractId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractContrator whereContractorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractContrator whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractContrator whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractContrator whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractContrator whereUpdatedAt($value)
- */
-	class ContractContrator extends \Eloquent {}
-}
-
-namespace App{
-/**
- * App\Reward
+ * Class Reward
+ * 
+ * List of rewards.
  *
  * @property int $id
  * @property int $block
@@ -249,13 +282,14 @@ namespace App{
 
 namespace App{
 /**
- * App\KycDocument
+ * Class KycDocument
+ * 
+ * Holds a single KYC document.
  *
  * @property int $id
  * @property int $contractor_id
- * @property string $title
- * @property string $description
- * @property string $file
+ * @property string $type
+ * @property string|null $file
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -270,10 +304,9 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereContractorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\KycDocument withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\KycDocument withoutTrashed()
@@ -283,7 +316,9 @@ namespace App{
 
 namespace App{
 /**
- * App\Comment
+ * Class Comment
+ * 
+ * Holds comments for proposals.
  *
  * @property int $id
  * @property int $proposal_id
@@ -312,10 +347,13 @@ namespace App{
 
 namespace App{
 /**
- * App\Contractor
+ * Class Contractor
+ * 
+ * Holds data of a contractor.
  *
  * @property int $id
- * @property int $user_id
+ * @property string|null $ident_code
+ * @property int|null $user_id
  * @property string|null $logo
  * @property string|null $slug
  * @property string|null $bio
@@ -323,9 +361,8 @@ namespace App{
  * @property string|null $first_name
  * @property string|null $last_name
  * @property string|null $company_name
+ * @property string|null $public_name
  * @property string|null $pasa
- * @property int $approved
- * @property string|null $approved_at
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -337,24 +374,24 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\KycDocument[] $kycDocuments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Proposal[] $proposals
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
- * @property-read \App\User $user
+ * @property-read \App\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor currentStatus($names)
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Contractor onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor otherCurrentStatus($names)
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereApproved($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereApprovedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereBio($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereCompanyName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereIdentCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereLogo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor wherePasa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor wherePublicName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereUpdatedAt($value)
@@ -398,62 +435,12 @@ namespace App{
 
 namespace App{
 /**
- * App\InvoiceLine
- *
- * @property int $id
- * @property int $invoice_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Invoice $invoice
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\InvoiceLine onlyTrashed()
- * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\InvoiceLine whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\InvoiceLine whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\InvoiceLine whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\InvoiceLine whereInvoiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\InvoiceLine whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\InvoiceLine withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\InvoiceLine withoutTrashed()
- */
-	class InvoiceLine extends \Eloquent {}
-}
-
-namespace App{
-/**
  * App\Payment
  *
- * @property int $id
- * @property int $proposal_id
- * @property int $contractor_id
- * @property string $ophash
- * @property string $amount_value
- * @property string $amount_currency
- * @property string|null $date_apportioned
- * @property string|null $date_disbursed
- * @property string|null $date_confirmed
- * @property string $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Proposal $proposal
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Payment onlyTrashed()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereAmountCurrency($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereAmountValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereContractorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereDateApportioned($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereDateConfirmed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereDateDisbursed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereOphash($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereProposalId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Payment withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Payment withoutTrashed()
  */
@@ -465,19 +452,18 @@ namespace App{
  * App\Invoice
  *
  * @property int $id
- * @property string $no
  * @property string $date
  * @property int $contract_id
- * @property int $contractor_id
+ * @property string $payload
  * @property string $ophash
  * @property string $value
  * @property string $currency
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Contract $contract
  * @property-read \App\Contractor $contractor
  * @property-read mixed $status
- * @property-read \App\Proposal $proposal
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice currentStatus($names)
  * @method static bool|null forceDelete()
@@ -485,14 +471,13 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice otherCurrentStatus($names)
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereContractId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereContractorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereCurrency($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereOphash($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice wherePayload($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereValue($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Invoice withTrashed()
@@ -503,10 +488,11 @@ namespace App{
 
 namespace App{
 /**
- * App\Contract
+ * Class Contract
  *
  * @property int $id
  * @property int $proposal_id
+ * @property int $contractor_id
  * @property string $type
  * @property string $payout_type
  * @property int $needs_feedback
@@ -514,13 +500,17 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $end
  * @property string $total_value
  * @property string $total_currency
+ * @property string|null $role
+ * @property string|null $role_description
+ * @property string|null $pasa
+ * @property string|null $payload
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Address $address
  * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contractor[] $contractors
+ * @property-read \App\Contractor $contractor
  * @property-read mixed $status
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
  * @property-read \App\Proposal $proposal
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract currentStatus($names)
@@ -528,13 +518,18 @@ namespace App{
  * @method static \Illuminate\Database\Query\Builder|\App\Contract onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract otherCurrentStatus($names)
  * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereContractorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereEnd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereNeedsFeedback($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePasa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePayload($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePayoutType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereProposalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereRoleDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereTotalCurrency($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereTotalValue($value)

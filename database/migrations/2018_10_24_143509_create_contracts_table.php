@@ -18,6 +18,7 @@ class CreateContractsTable extends Migration
             $table->increments('id');
 
             $table->unsignedInteger('proposal_id');
+            $table->unsignedInteger('contractor_id');
 
             $table->enum('type', array_keys(\App\Contract::TYPES))->default(key(\App\Contract::TYPES));
             $table->enum('payout_type', array_keys(\App\Contract::PAYOUT_TYPES))->default(key(\App\Contract::PAYOUT_TYPES));
@@ -29,8 +30,15 @@ class CreateContractsTable extends Migration
             $table->string('total_value');
             $table->string('total_currency');
 
+            $table->string('role')->nullable();
+            $table->longText('role_description')->nullable();
+            $table->string('pasa')->nullable();
+            $table->string('payload')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('proposal_id')->references('id')->on('proposals');
         });
     }
 

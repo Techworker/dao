@@ -5,6 +5,7 @@ namespace App\Nova;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -48,12 +49,7 @@ class KycDocument extends Resource
             Text::make('Title'),
             File::make('File'),
             Textarea::make('Description'),
-            Select::make('Status')->options([
-                'new' => 'NEW',
-                'accepted' => 'ACCEPTED',
-                'declined' => 'DECLINED',
-            ]),
-            Textarea::make('Decline Reason'),
+            MorphMany::make('Statuses', 'statuses', Status::class),
         ];
     }
 

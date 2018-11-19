@@ -28,6 +28,8 @@ class CreateAddressesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('contractor_id')->references('id')->on('contractors');
+
         });
     }
 

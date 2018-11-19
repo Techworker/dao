@@ -1,87 +1,82 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('content')
-
-    <div class="home-popular-proposal" style="padding-top: 20px;">
-        <div class="container_12">
+    <div class="row">
+        <div class="col-md-9">
             @foreach($proposals as $type => $subProposals)
-            <div class="grid_12 wrap-title" style="background: white; padding: 10px; margin-bottom: 10px;">
-                <h2 class="common-title">
-                    @if($type === "submitted")
-                        Submitted proposals
-                    @elseif($type === "approved")
-                        Approved proposals
-                    @elseif($type === "activated")
-                        Activated proposals
-                    @elseif($type === "aborted")
-                        Aborted proposals
-                    @elseif($type === "completed")
-                        Completed proposals
-                    @elseif($type === "suspended")
-                        Suspended proposals
-                    @endif
-                </h2>
-                @if($status === "all")
-                <a style="padding-right: 10px;" class="be-fc-orange" href="{{route('proposals', ['status' => $type])}}">View all</a>
+                <h2 class="mb-3 mt-3">
+                @if($type === "submitted")
+                    Submitted proposals
+                @elseif($type === "approved")
+                    Approved proposals
+                @elseif($type === "activated")
+                    Activated proposals
+                @elseif($type === "aborted")
+                    Aborted proposals
+                @elseif($type === "completed")
+                    Completed proposals
+                @elseif($type === "suspended")
+                    Suspended proposals
                 @endif
-                <p>
-                    @if($type === "submitted")
-                        Proposals awaiting approval.
-                    @elseif($type === "approved")
-                        Approved proposals awaiting to be activated.
-                    @elseif($type === "activated")
-                        Activated proposals which are in work.
-                    @elseif($type === "aborted")
-                        Proposals that were aborted.
-                    @elseif($type === "completed")
-                        Completed that were completed.
-                    @elseif($type === "suspended")
-                        Proposals that are temporary suspended.
-                    @endif
-                </p>
-            </div>
-            <div class="clear"></div>
-            <div class="lst-popular-proposal clearfix">
-                @forelse($subProposals as $subProposal)
-                <div class="grid_3">
-                    <div class="proposal-short sml-thumb">
-                        <div class="top-proposal-info">
-                            <div class="content-info-short clearfix">
-                                <a href="#" class="thumb-img">
-                                    <img src="/storage/{{str_replace('public', '', $subProposal->logo)}}" alt="$TITLE">
-                                </a>
-                                <div class="wrap-short-detail">
-                                    <h3 class="rs acticle-title"><a class="be-fc-orange" href="{{route('proposal_detail', ['slug' => $subProposal->slug])}}">{{$subProposal->title}}</a></h3>
-                                    <p class="rs tiny-desc">proposed by <a href="{{route('contractor', ['slug' => $proposal->proposerContractor->slug])}}" class="fw-b fc-gray be-fc-orange">{{$subProposal->proposerContractor->publicName()}}</a></p>
-                                    <p class="rs title-description">{{substr($subProposal->description, 0, 200)}}..</p>
-                                    <p class="rs proposal-location">
-                                        <i class="icon iLocation"></i>
-                                        {{$subProposal->proposerContractor->addresses->first()->country}}
-                                    </p>
+                </h2>
+                <div class="row">
+                    @forelse($subProposals as $proposal)
+                        <div class="col-md-4">
+                            <div class="card" style="width: 18rem;">
+                                @if($proposal->logo !== null)
+                                    <img class="card-img-top" src="{{asset('/storage/' . $proposal->logo)}}" alt="Card image cap">
+                                @endif
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$proposal->title}}</h5>
+                                    <p class="card-text">{{$proposal->intro}}</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">proposed by: {{$proposal->proposerContractor->public_name}}</li>
+                                    <li class="list-group-item">Status: {{\App\Proposal::STATUS_TYPES[$proposal->latestStatus()->name]}}</li>
+                                </ul>
+                                <div class="card-body">
+                                    <a href="#" class="card-link float-right">Show proposal</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div><!--end: .grid_3 > .proposal-short-->
-                @empty
-                    <p style="padding: 10px;">No
-                        @if($type === "submitted")
-                            submitted proposals
-                        @elseif($type === "approved")
-                            approved proposals
-                        @elseif($type === "activated")
-                            activated proposals
-                        @elseif($type === "aborted")
-                            aborted proposals
-                        @elseif($type === "completed")
-                            completed proposals
-                        @elseif($type === "suspended")
-                            suspended proposals
-                        @endif
-                    found.</p>
-                @endforelse
-            </div>
-            @endforeach
+                    @empty
+                        <div class="col-md-12">No proposals in this category.</div>
+                    @endforelse
+                </div>
+                @endforeach
         </div>
-    </div><!--end: .home-popular-proposal -->
+        <div class="col-md-3">
+            <ul class="list-group">
+
+                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === 'all' ? ' active' : '' !!}">
+                    All
+                    <span class="badge badge-warning">{{$counts['all']}}</span>
+                </a>
+                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_SUBMITTED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_SUBMITTED ? ' active' : '' !!}">
+                    Submitted
+                    <span class="badge badge-warning">{{$counts[\App\Proposal::STATUS_SUBMITTED]}}</span>
+                </a>
+                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_APPROVED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_APPROVED ? ' active' : '' !!}">
+                    Approved
+                    <span class="badge badge-warning">{{$counts[\App\Proposal::STATUS_APPROVED]}}</span>
+                </a>
+                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_ACTIVATED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_ACTIVATED ? ' active' : '' !!}">
+                    Activated
+                    <span class="badge badge-warning">{{$counts[\App\Proposal::STATUS_ACTIVATED]}}</span>
+                </a>
+                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_ABORTED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_ABORTED ? ' active' : '' !!}">
+                    Aborted
+                    <span class="badge badge-warning">{{$counts[\App\Proposal::STATUS_ABORTED]}}</span>
+                </a>
+                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_COMPLETED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_COMPLETED ? ' active' : '' !!}">
+                    Completed
+                    <span class="badge badge-warning">{{$counts[\App\Proposal::STATUS_COMPLETED]}}</span>
+                </a>
+                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_SUSPENDED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_SUSPENDED ? ' active' : '' !!}">
+                    Suspended
+                    <span class="badge badge-warning">{{$counts[\App\Proposal::STATUS_SUSPENDED]}}</span>
+                </a>
+            </ul>
+        </div>
+    </div>
 @endsection

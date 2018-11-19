@@ -2,21 +2,17 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\HasOne;
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphMany;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Money\Money;
 
 class Contract extends Resource
 {
@@ -55,30 +51,65 @@ class Contract extends Resource
     {
         return [
             ID::make()->sortable(),
-            Select::make('Type')->options(\App\Contract::TYPES),
-            Select::make('Payout Type')->options(\App\Contract::PAYOUT_TYPES),
-            Number::make('total_value'),
-            Select::make('total Currency')->options(
-                \App\MoneyValue::TYPES
-            )->hideFromIndex(),
-            Boolean::make('Needs Feedback'),
+
+            Select::make('Type')
+                ->options(\App\Contract::TYPES),
+
+            Select::make('Payout Type')
+                ->options(\App\Contract::PAYOUT_TYPES),
+
+            Text::make('Latest Status', function () {
+                if($this->latestStatus() !== null) {
+                    return \App\Contract::STATUS[(string)$this->latestStatus()];
+                }
+
+                return null;
+            })->hideWhenCreating()->hideWhenUpdating(),
+
+            Currency::make('Total_value')
+                ->format('%.2n')
+                ->hideFromIndex()
+                ->hideFromDetail(),
+
+            Select::make('total Currency')
+                ->options(\App\MoneyValue::TYPES)
+                ->hideFromIndex()
+                ->hideFromDetail(),
+
+            Text::make('Value', function () {
+                if($this->total_currency !== null) {
+                    return $this->total_value . ' ' . \App\MoneyValue::TYPES[$this->total_currency];
+                }
+                return null;
+            })->hideWhenCreating()->hideWhenUpdating(),
+
+            Boolean::make('Needs Feedback')
+                ->hideFromIndex(),
+
             Date::make('Start'),
+
             Date::make('End'),
-            MorphMany::make('Statuses', 'statuses', Status::class),
+
+            MorphMany::make('Statuses', 'statuses', Status::class)
+                ->hideFromIndex(),
+
             BelongsTo::make('Proposal'),
-            BelongsToMany::make('Contractor', 'contractors')->fields(function () {
-                return [
-                    Number::make('Percent'),
-                    Select::make('Type')->options([
-                        'no_pay' => 'No Pay',
-                        'payable' => 'Payable'
-                    ]),
-                    Text::make('role'),
-                    Textarea::make('role description'),
-                    Text::make('pasa'),
-                    Text::make('payload'),
-                ];
-            }),
+
+            Text::make('role')
+                ->hideFromIndex(),
+
+            Textarea::make('role description')
+                ->hideFromIndex(),
+
+            Text::make('pasa')
+                ->hideFromIndex(),
+
+            Text::make('payload')
+                ->hideFromIndex(),
+
+            BelongsTo::make('Contractor'),
+
+            HasMany::make('Invoice', 'invoices', Invoice::class),
         ];
     }
 

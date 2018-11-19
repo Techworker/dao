@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Country;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -25,6 +26,7 @@ class Invoice extends Resource
     public static $model = 'App\Invoice';
 
     public static $displayInNavigation = true;
+    public static $group = 'DAO';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -53,8 +55,14 @@ class Invoice extends Resource
         return [
             ID::make()->sortable(),
             Number::make('no'),
+            Date::make('date'),
+            BelongsTo::make('Contract'),
             BelongsTo::make('Contractor'),
-            BelongsTo::make('Proposal'),
+            Text::make('Op Hash'),
+            Number::make('value'),
+            Select::make('currency')->options(
+                \App\MoneyValue::TYPES
+            )->hideFromIndex(),
         ];
     }
 

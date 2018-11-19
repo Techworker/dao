@@ -2,36 +2,24 @@
 /** @var $user \App\User */
 ?>
 
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('content')
-<div class="layout-2cols">
-    <div class="content grid_12">
-        @if(session()->has('flash'))
-            <div id="flash">{{session()->get('flash')}}</div>
-        @endif
-
-        <div class="grid_12 top-info">
-            <ul class="nav nav-menu-blog clearfix">
-                <li><a href="{{route('profile_dashboard')}}">Dashboard</a></li>
-                <li class="sep"></li>
-                <li><a href="{{route('profile_login')}}">User Data</a></li>
-                <li class="sep"></li>
-                <li><a href="{{route('profile_contractor')}}">Proposals</a></li>
-            </ul>
-            <ul id="sys-nav-menu-blog" class="alternate-menu-blog">
-                <li><a href="#">News</a></li>
-                <li><a href="#">Data</a></li>
-                <li><a href="#">PROFILES</a></li>
-                <li><a href="#">Q&As</a></li>
-                <li><a href="#">Calendar</a></li>
-                <li><a href="#">Video</a></li>
-            </ul>
-        </div>
-        <div class="content grid_12 " style="background: white">
-            @yield('sub')
-        </div><!--end: .content -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link{{\App\Http\Actions\Profile\DashboardAction::isActiveRoute() ? ' active' : ''}}" href="{{\App\Http\Actions\Profile\DashboardAction::route()}}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{{\App\Http\Actions\Profile\Login\ShowAction::isActiveRoute() ? ' active' : '' }}" href="{{\App\Http\Actions\Profile\Login\ShowAction::route()}}">Login data</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{{\Request::is('*profile/contractor*') ? ' active' : '' }}" href="{{\App\Http\Actions\Profile\Contractor\ShowListAction::route()}}">Contractors</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{{\Request::is('*profile/proposal*') ? ' active' : '' }}" href="{{\App\Http\Actions\Profile\Proposal\ShowListAction::route()}}">Proposals</a>
+        </li>
+    </ul>
+    <div class="tab-content bg-white p-4">
+    @yield('sub')
     </div>
-    <div class="clear"></div>
-</div>
 @endsection

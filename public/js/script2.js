@@ -95,7 +95,7 @@ $(function(){
         }
 
         $.ajax({
-            url: '/profile/login',
+            url: '/profile/login-data',
             type: 'POST',
             data: data,
             cache: false,
@@ -104,7 +104,7 @@ $(function(){
             contentType: false, // Set content type to false as jQuery will tell the server its a query string request
             success: function()
             {
-                window.location.href = '/profile/login'
+                window.location.href = '/profile/login-data'
             },
             error: function(response)
             {
@@ -133,6 +133,7 @@ $(function(){
 
         data.append('id', $("#contractor-id").val());
         data.append('bio', $("#contractor-bio").val());
+        data.append('public_name', $("#contractor-public-name").val());
         data.append('first_name', $("#contractor-first-name").val());
         data.append('last_name', $("#contractor-last-name").val());
         data.append('company_name', $("#contractor-company-name").val());
@@ -204,7 +205,7 @@ $(function(){
             contentType: false, // Set content type to false as jQuery will tell the server its a query string request
             success: function(data, textStatus, jqXHR)
             {
-                window.location.href = '/profile/contractor'
+                window.location.href = '/profile/kyc'
             },
             error: function(response)
             {
@@ -215,6 +216,47 @@ $(function(){
                 var json = $.parseJSON(response.responseText);
                 $.each(json.errors, function(field, messages) {
                     $("#kyc-error-" + field.replace('_', '-')).show().html(messages[0]);
+                });
+            }
+        });
+
+        e.preventDefault();
+        return false;
+    });
+
+    var proposalFile = null;
+    $('input#proposal-file').on('change', function(event) {
+        proposalFile = event.target.files[0];
+    });
+
+    $("#form-proposal-doc").on('submit', function(e) {
+        var data = new FormData();
+        data.append('id', $("#proposal-document-id").val());
+        data.append('title', $("#proposal-title").val());
+        data.append('description', $("#proposal-description").val());
+        data.append('file', proposalFile);
+
+        $.ajax({
+            url: '/profile/proposals/' + $("#proposal-id").val() + '/documents',
+            type: 'POST',
+            data: data,
+            cache: false,
+            dataType: 'json',
+            processData: false, // Don't process the files
+            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+            success: function(data, textStatus, jqXHR)
+            {
+                window.location.href = '/profile/proposals'
+            },
+            error: function(response)
+            {
+                $.each(data, function(field, value) {
+                    $("#proposal-error-" + field.replace('_', '-')).hide();
+                });
+
+                var json = $.parseJSON(response.responseText);
+                $.each(json.errors, function(field, messages) {
+                    $("#proposal-error-" + field.replace('_', '-')).show().html(messages[0]);
                 });
             }
         });
@@ -238,7 +280,7 @@ $(function(){
         var current = $("#show-comment-form").text();
         $("#show-comment-form").text(alternate);
         $("#show-comment-form").data('alternate-text', current);
-        if(kycFormOpen) {
+        if(commentFormOpen) {
             $("#form-comment").slideUp();
         } else {
             $("#form-comment").slideDown();
@@ -262,9 +304,12 @@ $(function(){
         data.append('proposed_currency', $("#proposal-proposed-currency").val());
         data.append('website', $("#proposal-website").val());
         data.append('source_code', $("#proposal-source-code").val());
+        data.append('payment_proposal', $("#proposal-payment-proposal").val());
+        data.append('tags', $("#proposal-tags").val());
         data.append('logo', proposalLogoFile);
 
-        var url = '/profile/proposal';
+
+        var url = '/profile/proposals';
 
         $.ajax({
             url: url,
@@ -276,7 +321,7 @@ $(function(){
             contentType: false, // Set content type to false as jQuery will tell the server its a query string request
             success: function()
             {
-                window.location.href = '/profile/contractor';
+                window.location.href = '/profile/proposals';
             },
             error: function(response)
             {
@@ -300,10 +345,9 @@ $(function(){
             description: $("#comment-description").val()
         };
 
-        var projectId = $("#comment-project-id").val();
-
-        $.post('/projects/comment/' + projectId, data).then(function(a,b,c) {
-            window.location.href = '/projects/' + projectId + '?area=comments';
+        var proposalId = $("#comment-proposal-id").val();
+        $.post('/proposals/' + proposalId + '/comment', data).then(function(a,b,c) {
+            window.location.reload();
         }).fail(function(response) {
             $.each(data, function(field, value) {
                 $("#comment-error-" + field.replace('_', '-')).hide();

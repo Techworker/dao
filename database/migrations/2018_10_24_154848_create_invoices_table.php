@@ -15,16 +15,17 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('no');
             $table->date('date');
             $table->unsignedInteger('contract_id');
-            $table->unsignedInteger('contractor_id');
+            $table->string('payload');
             $table->string('ophash');
             $table->string('value');
             $table->string('currency');
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('contract_id')->references('id')->on('contracts');
         });
     }
 

@@ -1,57 +1,68 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('content')
-    <div class="layout-2cols">
-    <div class="content grid_8">
-        <div class="single-page">
-            <div class="wrapper-box box-post-comment">
-                <h2 class="common-title">Contact Us</h2>
-                <div class="box-white">
-                    <form id="contact-form" class="clearfix" action="processForm.php" method="post">
-                        <p class="rs pb30">Pellentesque laoreet sapien id lacus luctus non fringilla elit lobortis. Fusce augue diam, tempor posuere pharetra sed, feugiat non sapien.</p>
-                        <div class="form form-post-comment">
-                            <div class="left-input">
-                                <label for="txt_name_contact">
-                                    <input id="txt_name_contact" type="text" name="name" class="txt fill-width txt-name" placeholder="Enter Your Name"/>
-                                </label>
-                                <label for="txt_email_contact">
-                                    <input id="txt_email_contact" type="email" name="email" class="txt fill-width txt-email" placeholder="Enter Your Email" value="info@megadrupal.com"/>
-                                </label>
-                            </div>
-                            <div class="right-input">
-                                <label for="txt_content_contact">
-                                    <textarea name="message" id="txt_content_contact" cols="30" rows="10" class="txt fill-width" placeholder="Your message"></textarea>
-                                </label>
-                            </div>
-                            <div class="clear"></div>
-                            <p class="rs ta-r clearfix">
-                                <span id="response"></span>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Contact us</h2>
+            <p>Feel free to contact us, we'll try to get in touch with you as soon as possible.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="form_name">Firstname *</label>
+                <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="form_lastname">Lastname *</label>
+                <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required.">
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="form_email">Email *</label>
+                <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="form_need">Please specify your need *</label>
+                <select id="form_need" name="need" class="form-control" required="required" data-error="Please specify your need.">
+                    <option value=""></option>
+                    <option value="Request quotation">Request quotation</option>
+                    <option value="Request order status">Request order status</option>
+                    <option value="Request copy of an invoice">Request copy of an invoice</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="form_message">Message *</label>
+                <textarea id="form_message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required" data-error="Please, leave us a message."></textarea>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <input type="submit" class="btn btn-success btn-send" value="Send message">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-muted">
+                <strong>*</strong> These fields are required. Contact form template by
+                <a href="https://bootstrapious.com/p/how-to-build-a-working-bootstrap-contact-form" target="_blank">Bootstrapious</a>.</p>
+        </div>
+    </div>
 
-                                <input type="submit" class="btn btn-white btn-submit-comment" value="Send">
-                            </p>
-                        </div>
-                    </form>
-                </div>
-            </div><!--end: .box-list-comment -->
-        </div>
-    </div><!--end: .content -->
-    <div class="sidebar grid_4">
-        <div class="box-gray">
-            <h3 class="title-box">Contact info</h3>
-            <p class="rs description pb20">Pellentesque laoreet sapien id lacus luctus non fringilla elit lobortis. Fusce augue diam, tempor posuere pharetra sed, feugiat non sapien.</p>
-            <p class="rs pb20">
-                <span class="fw-b">Address</span>: 111 lorem St. 5th Floor,
-                Ipsum City, MA 00001
-            </p>
-            <p class="rs pb20">
-                <span class="fw-b">Phone</span>: +1 (555) 55-55-555
-                (9AM - 6PM EST)
-            </p>
-            <p class="rs pb20">
-                <span class="fw-b">Email</span>: <a href="mailto:info@megadrupal.com" class="be-fc-orange">info@megadrupal.com</a>
-            </p>
-        </div>
-    </div><!--end: .sidebar -->
-    <div class="clear"></div>
-</div>
 @endsection

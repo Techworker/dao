@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\UserStatus;
+use App\Nova\Metrics\NewUsers;
 use Laravel\Nova\Fields\Country;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -55,6 +56,7 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
+            Text::make('Name'),
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
@@ -68,8 +70,6 @@ class User extends Resource
 
             MorphToMany::make('Roles', 'roles', \Vyuldashev\NovaPermission\Role::class),
 
-            Select::make('Status')->options(\App\User::STATUS_TYPES),
-            Textarea::make('Rejected Reason'),
             HasMany::make('Contractor', 'contractors', Contractor::class)
         ];
     }
@@ -82,7 +82,9 @@ class User extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new NewUsers()
+        ];
     }
 
     /**
@@ -94,7 +96,6 @@ class User extends Resource
     public function filters(Request $request)
     {
         return [
-            new UserStatus()
         ];
     }
 

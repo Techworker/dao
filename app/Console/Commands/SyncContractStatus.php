@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Contract;
+use App\Proposal;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -59,6 +60,14 @@ class SyncContractStatus extends Command
                 $newStatus = Contract::STATUS_ACTIVE;
             } elseif ($contract->start->gt($now)) {
                 $newStatus = Contract::STATUS_INACTIVE;
+            }
+
+            if($newStatus === Contract::STATUS_ACTIVE) {
+                $contract->proposal->setStatus(Proposal::STATUS_ACTIVATED, 'Activated contract.');
+            } elseif($newStatus === Contract::STATUS_INACTIVE) {
+                if($contract->proposal->contracts->count() === 1) {
+                    $contract->proposal->setStatus(Proposal::STATUS_COMPLETED, 'Deactivated contract.');
+                }
             }
 
             if ($newStatus !== null && $contract->latestStatus()->name !== $newStatus) {

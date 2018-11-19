@@ -16,11 +16,12 @@ class CreateKycDocumentsTable extends Migration
         Schema::create('kyc_documents', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('contractor_id');
-            $table->string('title');
-            $table->mediumText('description');
-            $table->string('file');
+            $table->string('type');
+            $table->string('file')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('contractor_id')->references('id')->on('contractors');
         });
     }
 

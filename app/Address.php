@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Models for addresses.
+ */
 class Address extends Model
 {
     use SoftDeletes;
@@ -15,18 +18,13 @@ class Address extends Model
         'deleted_at'
     ];
 
+    /**
+     * Gets the contractor that owns the address.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function contractor()
     {
         return $this->belongsTo(Contractor::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function countryName()
-    {
-        return (include base_path('vendor/umpirsky/country-list/data/en/country.php'))[$this->country];
     }
 }

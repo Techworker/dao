@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\Auth;
 
-use App\Http\Actions\AbstractAction;
+use App\Http\AbstractAction;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends AbstractAction

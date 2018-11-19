@@ -2,24 +2,22 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractorStatus;
 use App\Nova\Filters\UserStatus;
+use App\Nova\Lenses\ContractorsToApprove;
+use App\Nova\Metrics\Contractors;
+use App\Nova\Metrics\ContractorsPerStatus;
+use App\Nova\Metrics\ContractorsPerType;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\Country;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\MorphToMany;
+use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Place;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Panel;
 
 class Contractor extends Resource
 {
@@ -59,10 +57,17 @@ class Contractor extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('User'),
-            Select::make('Type')->options(\App\Contractor::TYPES),
+            Text::make('Ident Code'),
+            Text::make('Public name')
+                ->sortable()
+                ->rules('required', 'max:255'),
 
-            Text::make('Pasa'),
+            BelongsTo::make('User'),
+            Select::make('Type')->options(\App\Contractor::TYPES)->resolveUsing(function ($name) {
+                return \App\Contractor::TYPES[$name];
+            })->hideFromIndex(),
+
+            Text::make('Pasa')->hideFromIndex(),
 
             Text::make('Company name')
                 ->sortable()
@@ -73,22 +78,11 @@ class Contractor extends Resource
             Textarea::make('Bio'),
             Textarea::make('Notes'),
 
+            MorphMany::make('Statuses', 'statuses', Status::class),
             HasMany::make('Address', 'addresses', Address::class),
             HasMany::make('Contact details', 'contactDetails', ContactDetail::class),
             HasMany::make('Proposals', 'proposals', Proposal::class),
-            BelongsToMany::make('Contracts', 'contracts', Contract::class)->fields(function () {
-                return [
-                    Number::make('Percent'),
-                    Select::make('Type')->options([
-                        'no_pay' => 'No Pay',
-                        'payable' => 'Payable'
-                    ]),
-                    Text::make('role'),
-                    Textarea::make('role_description'),
-                    Text::make('pasa'),
-                    Text::make('payload'),
-                ];
-            }),
+            HasMany::make('Contracts', 'contracts', Contract::class)
         ];
     }
 
@@ -100,7 +94,10 @@ class Contractor extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new ContractorsPerType(),
+            new ContractorsPerStatus()
+        ];
     }
 
     /**
@@ -112,7 +109,7 @@ class Contractor extends Resource
     public function filters(Request $request)
     {
         return [
-            new UserStatus()
+            new ContractorStatus()
         ];
     }
 
@@ -124,7 +121,9 @@ class Contractor extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new ContractorsToApprove()
+        ];
     }
 
     /**

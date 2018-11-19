@@ -6,7 +6,7 @@ use App\Address;
 use App\Comment;
 use App\ContactDetail;
 use App\Contractor;
-use App\Http\Actions\AbstractAction;
+use App\Http\AbstractAction;
 use App\Http\Requests\ContractorRequest;
 use App\Http\Requests\ProposalRequest;
 use App\Http\Requests\UpdateContact;

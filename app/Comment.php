@@ -5,6 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Comment
+ *
+ * Holds comments for proposals.
+ */
 class Comment extends Model
 {
     use SoftDeletes;

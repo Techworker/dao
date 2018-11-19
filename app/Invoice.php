@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStatus\HasStatuses;
 
+
 class Invoice extends Model
 {
     use SoftDeletes, HasStatuses;
@@ -21,9 +22,9 @@ class Invoice extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function proposal()
+    public function contract()
     {
-        return $this->belongsTo(Proposal::class);
+        return $this->belongsTo(Contract::class);
     }
 
     /**

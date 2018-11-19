@@ -1,14 +1,87 @@
-
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
-
 // Bootstrap
+@import './_variables';
 @import '~bootstrap/scss/bootstrap';
+@import './materia';
 
-.navbar-laravel {
+@import "~medium-editor/dist/css/medium-editor.css";
+@import "~medium-editor/dist/css/themes/flat.css";
+
+@import './loading';
+
+body {
+  overflow-y: scroll;
+}
+
+.navbar {
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  &.navbar-main {
+    padding: 10px;
+  }
+  ul > li.nav-item {
+    position: relative;
+    padding-right: 1em;
+    padding-left: 1em;
+    &:first-child {
+      padding-left: 0;
+    }
+    &:after {
+      position: absolute;
+      top: 30%;
+      height: 40%;
+      right: 0;
+      width: 1px;
+      border-right: 1px dashed #d4d4d4;
+      content: " ";
+    }
+    &:last-child:after {
+      content: '';
+      display: none;
+    }
+    &.nav-item-right {
+      &:after {
+        display: none;
+      }
+      &:last-child {
+        padding-right: 0;
+        padding-left: 1em;
+      }
+    }
+    a {
+      text-decoration: none;
+      text-transform: uppercase;
+      &.nav-link {
+        font-weight: 600;
+        color: black !important;
+        span {
+          color: #666;
+          font-size: .9em;
+          font-weight: 300;
+          display: block;
+        }
+
+      }
+      > .active a {
+        text-decoration: underline;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.nav.nav-tabs {
+  .nav-item {
+    .nav-link {
+      text-transform: uppercase;
+
+      &.active {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+
+.editable {
+  height: auto;
 }

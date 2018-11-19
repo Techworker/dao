@@ -7,39 +7,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStatus\HasStatuses;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Spatie\Tags\HasTags;
 
+/**
+ * Class Proposal
+ * 
+ * Describes the data of a proposal.
+ */
 class Proposal extends Model
 {
-
-    use SoftDeletes, HasSlug, HasStatuses;
-
-    /**
-     * Get the options for generating the slug.
-     */
-    public function getSlugOptions() : SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom(['id', 'title'])
-            ->saveSlugsTo('slug');
-    }
+    use SoftDeletes, HasSlug, HasStatuses, HasTags;
 
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at'
-    ];
-
-    /**
-     * Possible proposal status.
-     */
-    public const STATUS_TYPES = [
-        'draft' => 'DRAFT',
-        'submitted' => 'SUBMITTED',
-        'approved' => 'APPROVED',
-        'activated' => 'ACTIVATED',
-        'aborted' => 'ABORTED',
-        'completed' => 'COMPLETED',
-        'suspended' => 'SUSPENDED'
     ];
 
     public const STATUS_DRAFT = 'draft';
@@ -51,7 +33,32 @@ class Proposal extends Model
     public const STATUS_SUSPENDED = 'suspended';
 
     /**
-     * Gets the user that created the proposal.
+     * Possible proposal status.
+     */
+    public const STATUS_TYPES = [
+        self::STATUS_DRAFT => 'DRAFT',
+        self::STATUS_SUBMITTED => 'SUBMITTED',
+        self::STATUS_APPROVED => 'APPROVED',
+        self::STATUS_ACTIVATED => 'ACTIVATED',
+        self::STATUS_ABORTED => 'ABORTED',
+        self::STATUS_COMPLETED => 'COMPLETED',
+        self::STATUS_SUSPENDED => 'SUSPENDED'
+    ];
+
+    /**
+     * Slug generation callback.
+     *
+     * @return SlugOptions
+     */
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['title'])
+            ->saveSlugsTo('slug');
+    }
+
+    /**
+     * Gets the contractor that created the proposal.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -61,6 +68,8 @@ class Proposal extends Model
     }
 
     /**
+     * Gets the list of contracts created for this proposal.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function contracts()
@@ -69,23 +78,17 @@ class Proposal extends Model
     }
 
     /**
+     * Gets the list of documents associated with the proposal.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function invoices()
+    public function documents()
     {
-        return $this->hasMany(Invoice::class);
+        return $this->hasMany(ProposalDocument::class)->orderBy('created_at', 'ASC');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
-
-    /**
-     * Gets the list of comments the user created.
+     * Gets the list of comments for the proposal.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

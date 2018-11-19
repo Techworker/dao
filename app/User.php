@@ -7,6 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * Class User
+ *
+ * Describes a user.
+ */
 class User extends Authenticatable
 {
     use Notifiable, HasRoles, SoftDeletes;
@@ -15,13 +20,6 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
         'deleted_at'
-    ];
-
-    public const STATUS_TYPES = [
-        'incomplete' => 'Incomplete',
-        'pending' => 'Pending',
-        'rejected' => 'Rejected',
-        'verified' => 'Verified',
     ];
 
 
@@ -51,26 +49,6 @@ class User extends Authenticatable
     public function contractors()
     {
         return $this->hasMany(Contractor::class);
-    }
-
-    /**
-     * Gets a list of kyc docs the user uploaded.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function kycDocuments()
-    {
-        return $this->hasMany(KycDocument::class);
-    }
-
-    /**
-     * Gets the list of proposals created by this user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function proposals()
-    {
-        return $this->hasMany(Proposal::class);
     }
 
     /**

@@ -2,15 +2,13 @@
 
 namespace App\Http\Actions\Proposal;
 
-use App\Http\Actions\AbstractAction;
+use App\Http\AbstractAction;
 use App\Proposal;
 
 class ShowDetailAction extends AbstractAction
 {
-    public function __invoke(string $slug)
+    public function __invoke(Proposal $proposal, string $slug)
     {
-        $proposal = Proposal::whereSlug($slug)->first();
-
         return view('proposal', [
             'proposal' => $proposal,
             'contracts' => $proposal->contracts

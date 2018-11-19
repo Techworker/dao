@@ -17,12 +17,14 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('test123');
         $user->save();
 
-        $contractor = new \App\Contractor();
+        $contractor = $user->contractors->first();
         $contractor->user_id = $user->id;
+        $contractor->ident_code = "techworker";
         $contractor->type = \App\Contractor::TYPE_NATURAL_PERSON;
         $contractor->first_name = 'Benjamin';
         $contractor->last_name = 'Ansbach';
         $contractor->company_name = 'Techworker GmbH';
+        $contractor->public_name = '@techworker';
         $contractor->pasa = "6780-11";
         $contractor->save();
         $contractor->setStatus(\App\Contractor::STATUS_APPROVED, 'seed');
@@ -50,25 +52,33 @@ class UserSeeder extends Seeder
 
         $proposal = new \App\Proposal();
         $proposal->proposer_contractor_id = $contractor->id;
+        $proposal->ident_code = "php-lib";
         $proposal->title = 'PHP Library';
         $proposal->description = 'A library to..';
         $proposal->website = 'https://www.techworker.io';
         $proposal->source_code = 'https://github.com/techworker';
-        $proposal->proposed_value = 10000;
-        $proposal->proposed_currency = 'PASC_molina';
+        $proposal->proposed_value = '10000';
+        $proposal->proposed_currency = \App\MoneyValue::TYPE_PASC;
+        $proposal->payment_proposal = 'Pay now or I will delete everything!';
         $proposal->save();
 
+        $proposal->setStatus(\App\Proposal::STATUS_DRAFT, 'seed');
         $proposal->setStatus(\App\Proposal::STATUS_SUBMITTED, 'seed');
 
         $contract = new \App\Contract();
         $contract->proposal_id = $proposal->id;
+        $contract->contractor_id = $contractor->id;
         $contract->type = \App\Contract::TYPE_SALARY;
         $contract->payout_type = \App\Contract::PAYOUT_TYPE_MONTHLY;
         $contract->needs_feedback = false;
         $contract->start = \Carbon\Carbon::now();
         $contract->end = null;
         $contract->total_value = 100000;
-        $contract->total_currency = 'PASC_molina';
+        $contract->total_currency = \App\MoneyValue::TYPE_PASC;
+        $contract->role = 'Developer';
+        $contract->role_description = 'Develops the stuff';
+        $contract->pasa = '6780';
+        $contract->payload = 'test123';
         $contract->save();
 
         $contract->setStatus(\App\Contract::STATUS_INACTIVE, 'seed');

@@ -1,35 +1,44 @@
 <?php
-/** @var $contractor \App\Contractor */
+/** @var $proposal \App\Proposal */
 ?>
 
 @extends('profile')
 
 @section('sub')
-    <div style="padding: 20px;">
-        <h3 class="title">Contractors</h3>
-        <p>This displays a list of contractors for your account. Each contractor records can own multiple proposals and all invoicing will be made against these records.</p>
-        <div id="list-blog-ajax" class="list-last-post">
-            @forelse($contractors as $contractor)
-            <div class="media other-post-item">
-                <a href="#" class="thumb-left">
-                    <img src="{{asset('storage/' . $contractor->logo)}}" alt="$TITLE">
-                </a>
-                <div class="media-body">
-                    <h4 class="rs title-other-post">
-                        <a href="{{route('profile_contractor_update', ['contractor' => $contractor])}}" class="be-fc-orange fw-b">{{$contractor->first_name}} {{$contractor->last_name}} ({{$contractor->company_name}})</a>
-                    </h4>
-                    <p class="rs fc-gray time-post pb10">{{$contractor->proposals->count()}} proposals</p>
-                    <ul>
-                    @foreach($contractor->proposals as $proposal)
-                        <li>{{$proposal->title}}</li>
-                    @endforeach
-                    </ul>
-                    <a class="btn btn-pascal btn-submit-all" href="{{route('profile_proposal_create')}}">Create proposal</a>
-                </div>
-            </div><!--end: .other-post-item -->
-            @empty
-                <a class="btn btn-pascal btn-submit-all" href="{{route('profile_contractor_create')}}">Create contractor record</a>
-            @endforelse
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                @foreach($proposals as $proposal)
+                    <div class="col-md-6">
+                        <div class="card">
+                            @if($proposal->logo !== null)
+                                <img class="card-img-top" src="{{asset('storage/' . $proposal->logo)}}" alt="Card image cap">
+                            @endif
+                            <div class="card-body">
+                                <h5 class="card-title">{{$proposal->title}}</h5>
+                                <p class="card-text">
+                                    Status: {{ucfirst($proposal->status())}}
+                                    @if((string)$proposal->status() === \App\Proposal::STATUS_DRAFT)
+                                        <br />This proposal is not visible for anyone except yourself.
+                                    @endif
+                                    @if((string)$proposal->status() === \App\Proposal::STATUS_SUBMITTED)
+                                        <br />Waiting for approval.
+                                    @endif
+                                </p>
+                            </div>
+                            <div class="card-body">
+                                <a href="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route(['proposal' => $proposal])}}" class="card-link">Update</a>
+                                <a href="{{\App\Http\Actions\Profile\Proposal\DeleteAction::route(['proposal' => $proposal])}}" class="card-link">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-primary" href="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route()}}">Create new Proposal</a>
+            Notifications
         </div>
     </div>
+
 @endsection

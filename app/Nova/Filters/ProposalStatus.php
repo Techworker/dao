@@ -17,7 +17,9 @@ class ProposalStatus extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('status', $value);
+        return $query->whereHas('statuses', function($query) use($value) {
+            $query->where('name', '=', $value);
+        });
     }
 
     /**

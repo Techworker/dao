@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\Auth;
 
-use App\Http\Actions\AbstractAction;
+use App\Http\AbstractAction;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,16 +20,14 @@ class LoginController extends AbstractAction
     |
     */
 
-    use AuthenticatesUsers {
-        login as _login;
-    }
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/profile';
 
     /**
      * Create a new controller instance.
@@ -41,21 +39,4 @@ class LoginController extends AbstractAction
         $this->middleware('guest')->except('logout');
     }
 
-    /**
-     * Handle a login request to the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function login(Request $request)
-    {
-        $response = $this->_login($request);
-        if($response instanceof RedirectResponse) {
-            return response()->json(['success' => true]);
-        }
-
-        return $response;
-    }
 }

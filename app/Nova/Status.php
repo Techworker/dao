@@ -2,18 +2,11 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Country;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Status extends Resource
 {
@@ -50,12 +43,26 @@ class Status extends Resource
      */
     public function fields(Request $request)
     {
+        $parsed = parse_url($request->server('HTTP_REFERER'));
+        $options = [];
+        if(isset($parsed['query'])) {
+            parse_str($parsed['query'], $output);
+            switch($output['viaResource']) {
+                case 'proposals':
+                    $options = \App\Proposal::STATUS_TYPES;
+                    break;
+                case 'contracts':
+                    $options = \App\Contract::STATUS;
+                    break;
+            }
+        }
+
         return [
             ID::make()->sortable(),
             MorphTo::make('Model')->types([
-                Contract::class
+                Contract::class, Proposal::class
             ]),
-            Text::make('name'),
+            Select::make('Name')->options($options),
             Text::make('reason'),
         ];
     }
