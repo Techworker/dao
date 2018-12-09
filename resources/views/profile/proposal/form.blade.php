@@ -18,7 +18,7 @@
     <form id="form-proposal" action="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route(['proposal' => $proposal])}}" data-redirect="{{\App\Http\Actions\Profile\Proposal\ShowListAction::route()}}">
     @endif
         <div class="form-group">
-            <label for="proposal-status">Contractor</label>
+            <label for="proposal-status">Contractor association</label>
             <select class="form-control" id="proposal-contractor" name="proposal-contractor">
                 @foreach($contractors as $contractor)
                     <option value="{{$contractor->id}}">{{$contractor->publicName()}}</option>
@@ -130,7 +130,7 @@
         <h4>Attachment 1</h4>
         <div class="form-group">
             <label for="proposal-document-1-title">Title</label>
-            <input type="text" class="form-control" id="proposal-document-1-title" name="proposal-document-1-title" required value="{{$doc_1->title}}">
+            <input type="text" class="form-control" id="proposal-document-1-title" name="proposal-document-1-title" value="{{$doc_1->title}}">
             <div class="invalid-feedback"></div>
             <small class="form-text text-muted">Title describing the first attachment.</small>
         </div>
@@ -153,7 +153,7 @@
         <h4>Attachment 2</h4>
         <div class="form-group">
             <label for="proposal-document-2-title">Title</label>
-            <input type="text" class="form-control" id="proposal-document-2-title" name="proposal-document-2-title" required value="{{$doc_2->title}}">
+            <input type="text" class="form-control" id="proposal-document-2-title" name="proposal-document-2-title" value="{{$doc_2->title}}">
             <div class="invalid-feedback"></div>
             <small class="form-text text-muted">Title describing the second attachment.</small>
         </div>
@@ -175,7 +175,7 @@
         <h4>Attachment 3</h4>
         <div class="form-group">
             <label for="proposal-document-3-title">Title</label>
-            <input type="text" class="form-control" id="proposal-document-3-title" name="proposal-document-3-title" required value="{{$doc_3->title}}">
+            <input type="text" class="form-control" id="proposal-document-3-title" name="proposal-document-3-title" value="{{$doc_3->title}}">
             <div class="invalid-feedback"></div>
             <small class="form-text text-muted">Title describing the third attachment.</small>
         </div>

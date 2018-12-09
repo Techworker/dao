@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Select;
@@ -47,13 +48,18 @@ class Status extends Resource
         $options = [];
         if(isset($parsed['query'])) {
             parse_str($parsed['query'], $output);
-            switch($output['viaResource']) {
-                case 'proposals':
-                    $options = \App\Proposal::STATUS_TYPES;
-                    break;
-                case 'contracts':
-                    $options = \App\Contract::STATUS;
-                    break;
+            if(isset($output['viaResource'])) {
+                switch ($output['viaResource']) {
+                    case 'proposals':
+                        $options = \App\Proposal::STATUS_TYPES;
+                        break;
+                    case 'contractors':
+                        $options = \App\Contractor::STATUS;
+                        break;
+                    case 'contracts':
+                        $options = \App\Contract::STATUS;
+                        break;
+                }
             }
         }
 
@@ -64,6 +70,7 @@ class Status extends Resource
             ]),
             Select::make('Name')->options($options),
             Text::make('reason'),
+            DateTime::make('Created at')->hideWhenUpdating()->hideWhenCreating()
         ];
     }
 

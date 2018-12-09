@@ -127,6 +127,9 @@ namespace App{
  * @property string|null $notes_contractor
  * @property string|null $notes_internal
  * @property string|null $website
+ * @property string $voting_type
+ * @property string|null $voting_from
+ * @property string|null $voting_to
  * @property string|null $source_code
  * @property string|null $proposed_value
  * @property string|null $proposed_currency
@@ -164,6 +167,9 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereSourceCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingFrom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingTo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereWebsite($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal withAllTags($tags, $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal withAnyTags($tags, $type = null)

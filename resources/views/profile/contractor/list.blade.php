@@ -8,9 +8,11 @@
 @section('sub')
     <div class="row">
         <div class="col-md-12">
-            <p>This is a list of your contractor records. Normally you just
-                need one contractor record.</p>
+            <h2>Contractors</h2>
+            <p>dasdas</p>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-9">
             <div class="row">
             @foreach($contractors as $contractor)

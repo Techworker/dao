@@ -8,11 +8,15 @@ $contractor = \Auth::user()->contractors->first();
 @section('sub')
     <div class="row">
         <div class="col-md-12">
-
-            <h2>Dashboard</h2>
+            <h3>Dashboard</h3>
             <p>Welcome {{$contractor->public_name}}. This is your dashboard which collects all data connected to your profile.</p>
+        </div>
+    </div>
 
-            <h3>Contractor status:</h3>
+    <div class="row">
+        <div class="col-md-12">
+
+           <h3>Contractor status:</h3>
             <p>
                 <b>{{\App\Contractor::STATUS[$contractor->latestStatus()->name]}}:</b><br />{{$contractor->latestStatus()->reason}}
             </p>

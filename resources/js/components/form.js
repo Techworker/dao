@@ -38,6 +38,7 @@ class Form
             editor.subscribe('editableInput', (eventObj, editable) => {
                 this.editors[`${id}-html`] = editable.innerHTML;
             });
+            this.editors[`${id}-html`] = $el.innerHTML;
         });
 
         this.files = {};

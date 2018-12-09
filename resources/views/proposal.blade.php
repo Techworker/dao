@@ -3,189 +3,146 @@
 /** @var $proposal \App\Proposal */
 
 ?>
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('content')
-
-    <div class="layout-2cols">
-    <div class="content grid_8">
-        <div class="proposal-detail">
-            <h2 class="rs proposal-title">{{$proposal->title}}</h2>
-            <p class="rs post-by">proposed by <a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $proposal->proposerContractor, 'slug' => $proposal->proposerContractor->slug])}}">{{$proposal->proposerContractor->public_name}}</a></p>
-            @if($proposal->logo !== null)
-            <div class="proposal-short big-thumb">
-                <div class="top-proposal-info">
-                    <div class="content-info-short clearfix">
-                        <div class="thumb-img">
-                            <div class="rslides_container">
-                                <ul class="rslides" id="slider1">
-                                    <li><img src="/storage/{{str_replace('public', '', $proposal->logo)}}" alt=""></li>
-                                </ul>
-                            </div>
+    <div class="container p-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{$proposal->title}}</h2>
+            <p><span class="text-uppercase font-weight-bold">proposed by</span> <a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $proposal->proposerContractor, 'slug' => $proposal->proposerContractor->slug])}}">{{$proposal->proposerContractor->public_name}}</a></p>
+        </div>
+    </div>
+    <div class="row">
+        @if($proposal->logo !== null)
+        <div class="col-md-5">
+            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="{{asset('storage/' . $proposal->logo)}}" alt="First slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-7">
+        @else
+        <div class="col-md-12">
+        @endif
+            {!! $proposal->description_html !!}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs mt-4">
+                <li class="nav-item">
+                    <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="discussion-tab" data-toggle="tab" href="#discussion" role="tab" aria-controls="discussion" aria-selected="true">Questions &amp; Answers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="voting-tab" data-toggle="tab" href="#voting" role="tab" aria-controls="voting" aria-selected="true">Voting</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contractors-tab" data-toggle="tab" href="#contractors" role="tab" aria-controls="contractors" aria-selected="true">Contracts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="payments-tab" data-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="true">Payments</a>
+                </li>
+            </ul>
+            <div class="tab-content p-2 pt-3">
+                <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                    <h3>Information</h3>
+                    <ul>
+                        <li>The proposed costs for this project are <u>{{$proposal->proposed_value}} {{$proposal->proposed_currency}}</u></li>
+                        <li>The Status of the project is <u>{{$proposal::STATUS_TYPES[$proposal->latestStatus()->name]}}</u></li>
+                        <li>Website: <a href="{{$proposal->website}}">{{$proposal->website}}</a></li>
+                        <li>Source: <a href="{{$proposal->source_code}}">{{$proposal->source_code}}</a></li>
+                    </ul>
+                    @if($proposal->documents->count() > 0)
+                    <h4>Attachments</h4>
+                    <ul>
+                    @foreach($proposal->documents as $document)
+                        @if($document->file !== null)
+                                <li><a href="{{asset('storage/' . $document->file)}}" target="_blank">{{$document->title}}</a></li>
+                        @endif
+                    @endforeach
+                    </ul>
+                    @endif
+                </div>
+                <div class="tab-pane fade" id="discussion" role="tabpanel" aria-labelledby="discussion-tab">
+                    <h3>Questions &amp; Answers.</h3>
+                    <p>A simple Q&amp;A where users can ask questions and the proposer can anwser these questions.</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="http://bootdey.com/img/Content/user_1.jpg" alt="..." class="img-thumbnail float-left mr-3">
+                            <h5 class="card-title">Benjamin Ansbach</h5>
+                            <p class="card-text">
+                                hjfdskfndskjfndsk
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">asked 3 mins ago</small>
                         </div>
                     </div>
-                </div><!--end: .top-proposal-info -->
-            </div>
-            @endif
-            <div class="proposal-tab-detail tabbable accordion">
-                <ul class="nav nav-tabs clearfix">
-                    <li class="active"><a href="#">About</a></li>
-                    <li><a href="#" class="be-fc-orange">Documents</a></li>
-                    <li><a href="#" class="be-fc-orange">Comments ({{$proposal->comments->count()}})</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div>
-                        <h3 class="rs alternate-tab accordion-label">About</h3>
-                        <div class="tab-pane active accordion-content">
-                            <div class="editor-content">
-                                {!! parsedown($proposal->description)!!}
-                            </div>
-                        </div><!--end: .tab-pane(About) -->
-                    </div>
-                    <div>
-                        <h3 class="rs alternate-tab accordion-label">Documents</h3>
-                        <div class="tab-pane accordion-content">
-                            <div class="editor-content">
-                                <h3 class="rs title-inside">Attached documents</h3>
-                                @forelse($proposal->documents as $document)
-                                    <p><b>{{$document->title}}</b><br />
-                                        {{$document->description}}<br />
-                                        <a href="/storage/{{$document->file}}" target="_blank">&raquo; Download.</a>
-                                    </p>
-                                    @empty
-                                    <p>No documents attached to this proposal.</p>
-                                @endforelse
-                            </div>
-                        </div><!--end: .tab-pane(About) -->
-                    </div>
-                    <div>
-                        <h3 class="rs active alternate-tab accordion-label">Comments ({{$proposal->comments->count()}})</h3>
-                        <div class="tab-pane accordion-content">
-                            <div class="tab-pane-inside">
-                            <div class="form">
-                                <form action="#" id="form-comment" style="display: none">
-                                    <input type="hidden" id="comment-proposal-id" value="{{$proposal->id}}">
-                                    <div class="row-item clearfix">
-                                        <h4>Add comment</h4>
-                                    </div>
-                                    <div class="row-item clearfix">
-                                        <label class="lbl" for="txt_bio">Author:</label>
-                                        <div class="val">{{\Auth::user()->name}}</div>
-                                    </div>
-                                    <div class="row-item clearfix">
-                                        <label class="lbl" for="txt_bio">Text:</label>
-                                        <div class="val">
-                                            <p class="rs error" id="comment-error-description"></p>
-                                            <textarea class="txt fill-width" id="comment-description" cols="30" rows="10"></textarea>
-                                        </div>
-                                    </div>
-                                    <p class="wrap-btn-submit rs ta-r">
-                                        <input type="submit" class="btn btn-pascal btn-submit-all" value="Save comment">
-                                    </p>
-                                </form>
-                                <button class="btn btn-pascal btn-submit-all" id="show-comment-form" data-alternate-text="Cancel">Add comment</button>
-                            </div>
-                            </div>
-                            @forelse($proposal->comments as $comment)
-                            <div class="box-list-comment" style="padding: 20px">
-                                <div class="media comment-item">
-                                    <div class="media-body">
-                                        <h4 class="rs comment-author">
-                                            <a href="#" class="be-fc-orange fw-b">
-                                                @if($comment->user->id === $proposal->proposerContractor->user->id) [Owner]@endif
-                                                {{$comment->user->name}}</a>
-                                            <span class="fc-gray">says:</span>
-                                        </h4>
-                                        <p class="rs comment-content">{{$comment->description}}</p>
-                                        <p class="rs time-post">{{$comment->created_at}}</p>
-                                    </div>
-                                </div><!--end: .comment-item -->
-                            </div>
-                            @empty
-                            No comments yet!
-                            @endforelse
-                        </div><!--end: .tab-pane(Comments) -->
-                    </div>
-                </div>
-            </div><!--end: .proposal-tab-detail -->
-        </div>
-    </div><!--end: .content -->
-    <div class="sidebar grid_4">
-        <div class="proposal-runtime">
-            <div class="box-gray">
-                <div class="proposal-date clearfix">
-                    <i class="icon iCalendar"></i>
-                    <span class="val"><span class="fw-b">Proposed at </span>{{$proposal->created_at->toDateString()}}</span>
-                </div>
-                <p class="rs description">
-                    @if($proposal->status === "submitted")
-                        This proposal was submitted by <a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $proposal->proposerContractor, 'slug' => $proposal->proposerContractor->slug])}}">{{$proposal->proposerContractor->public_name}}</a> and is waiting for it's approval.
-                    @elseif($proposal->status === "approved")
-                        This proposal was approved submitted by {{$proposal->proposerContractor->public_name}} and is waiting for it to get contracted and activated.
-                    @elseif($proposal->status === "activated")
-                        This proposal is contracted and in active development.
-                    @elseif($proposal->status === "aborted")
-                        This proposal was aborted.
-                    @elseif($proposal->status === "completed")
-                        This proposal was completed and the contract ended.
-                    @elseif($proposal->status === "suspended")
-                        This proposal was suspended and is paused.
-                    @endif
-                </p>
-            </div>
-        </div>
-        @foreach($proposal->contracts as $contract)
-        <div class="proposal-author">
-            <div class="box-gray">
-                <h3 class="title-box">Contract</h3>
-                <div class="media">
-                    @if($contract->contractor->logo !== null)
-                        <a href="#" class="thumb-left">
-                            <img src="/storage/{{$contract->contractor->logo}}" alt="{{$contract->contractor->public_name}}"/>
-                        </a>
-                    @endif
-                    <div class="media-body">
-                        <h4 class="rs pb10"><a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $contract->contractor, 'slug' => $contract->contractor->slug])}}" class="be-fc-orange fw-b">{{$contract->contractor->public_name}}</a></h4>
-                        <p>
-                            <b>Ident:</b> {{$contract->contractor->ident_code}}-{{$contract->proposal->ident_code}}<br />
-                            <b>Status: </b> {{$contract->latestStatus()}}<br />
-                            <b>Runtime:</b> {{$contract->start->toDateString()}} - {{$contract->end ? $contract->end->toDateString() : 'Unknown'}}<br />
-                            <b>Type:</b> {{$contract->type}}<br />
-                            <b>Payout-Type:</b> {{$contract->payout_type}}<br />
-                            <b>Amount:</b> {{$contract->total_value}} {{$contract->total_currency}}<br />
-                            <b>Role:</b> {{$contract->role}}<br />
-                            {{$contract->role_description}}
-                        </p>
-                    </div>
-                </div>
-                <div class="author-action">
-                    <a class="btn btn-white" href="{{\App\Http\Actions\Proposal\ShowPayoutsAction::route(['proposal' => $proposal, 'slug' => $proposal->slug, 'contract' => $contract])}}">See payouts</a>
-                </div>
-            </div>
-        </div>
-        @endforeach
 
-        <div class="proposal-author">
-            <div class="box-gray">
-                <h3 class="title-box">Proposed by</h3>
-                <div class="media">
-                    @if($proposal->proposerContractor->logo !== null)
-                        <a href="#" class="thumb-left">
-                            <img src="/storage/{{$proposal->proposerContractor->logo}}" alt="{{$proposal->perop}}"/>
-                        </a>
-                    @endif
-                    <div class="media-body">
-                        <h4 class="rs pb10"><a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $proposal->proposerContractor, 'slug' => $proposal->proposerContractor->slug])}}" class="be-fc-orange fw-b">{{$proposal->proposerContractor->public_name}}</a></h4>
-                        <p class="rs fc-gray">{{$proposal->proposerContractor->proposals->count() - 1}} other proposals</p>
-                    </div>
                 </div>
-                <div class="author-action">
-                    <a class="btn btn-white" href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $proposal->proposerContractor, 'slug' => $proposal->proposerContractor->slug])}}">See full bio</a>
+                <div class="tab-pane fade" id="voting" role="tabpanel" aria-labelledby="voting-tab">
+                    <h3>Voting</h3>
+                    <p>A simple Q&amp;A where users can ask questions and the proposer can anwser these questions.</p>
+                    @if($proposal->voting_type === $proposal::VOTING_TYPE_BLOCKCHAIN)
+                        The vote will happen on the blockchain.
+                    @else
+                        The vote will happen on discord in the #polls channel.
+                    @endif
+
+                    @if($proposal->vote_from === null)
+                        No voting dates set yet.
+                    @else
+                        Voting will take place from {{$proposal->voting_start->toDateTimeString()}} to {{$proposal->voting_end->toDateTimeString()}} (UTC)
+                    @endif
+                </div>
+                <div class="tab-pane fade" id="contractors" role="tabpanel" aria-labelledby="contractors-tab">
+                    <h3>Contracts</h3>
+                    <p>The list of contracts resulted from the proposal.</p>
+                    @if($proposal->contracts->count() === 0)
+                        <div class="alert alert-info">No contracts yet.</div>
+                    @else
+                        @foreach($proposal->contracts as $contract)
+                            <div class="card">
+                                <div class="card-body">
+                                    @if($contract->contractor->logo !== null)
+                                    <img src="{{asset('storage/' . $contract->contractor->logo)}}" alt="..." class="img-thumbnail float-left mr-3">
+                                    @endif
+                                    <h5 class="card-title">{{$contract->contractor->public_name}}</h5>
+                                    <p class="card-subtitle">{{$contract->role}}</p>
+                                    <p class="card-text">
+                                        {{$contract->role_description}}
+                                        <br />
+                                        <u>Duration:</u> {{$contract->start->toDateString()}} - {{$contract->end !== null ? $contract->end->toDateString() : 'open end'}}<br />
+                                        <u>Payment:</u> {{$contract::PAYOUT_TYPES[$contract->payout_type]}} - {{$contract::TYPES[$contract->type]}}<br />
+                                        <u>Total value:</u> {{$contract->total_value}} {{$contract->total_currency}} to pasa {{$contract->pasa}}
+                                    </p>
+                                </div>
+                            </div>
+
+                        @endforeach
+                    @endif
+                </div>
+                <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="payments-tab">
+                    <h3>Payments</h3>
+                    <p>The list of payments made by the foundation for the proposal.</p>
                 </div>
             </div>
-        </div><!--end: .proposal-author -->
-        <div class="clear clear-2col"></div>
-    </div><!--end: .sidebar -->
-    <div class="clear"></div>
-</div>
-    @endsection
+        </div>
+    </div>
+    </div>
+@endsection

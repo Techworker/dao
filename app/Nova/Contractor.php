@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -61,7 +62,7 @@ class Contractor extends Resource
             Text::make('Public name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
+            Text::make('Latest Status')->hideWhenUpdating(),
             BelongsTo::make('User'),
             Select::make('Type')->options(\App\Contractor::TYPES)->resolveUsing(function ($name) {
                 return \App\Contractor::TYPES[$name];
@@ -77,6 +78,7 @@ class Contractor extends Resource
             Text::make('Last Name'),
             Textarea::make('Bio'),
             Textarea::make('Notes'),
+            Image::make('Logo')->disk('public')->path('proposals')->hideFromIndex(),
 
             MorphMany::make('Statuses', 'statuses', Status::class),
             HasMany::make('Address', 'addresses', Address::class),

@@ -6,16 +6,23 @@
 
 @section('sub')
     <div class="row">
+        <div class="col-md-12">
+            <h2>Proposals</h2>
+            <p>dasdas</p>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-9">
             <div class="row">
                 @foreach($proposals as $proposal)
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="card">
                             @if($proposal->logo !== null)
                                 <img class="card-img-top" src="{{asset('storage/' . $proposal->logo)}}" alt="Card image cap">
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{$proposal->title}}</h5>
+                                <p>{{$proposal->intro}}</p>
                                 <p class="card-text">
                                     Status: {{ucfirst($proposal->status())}}
                                     @if((string)$proposal->status() === \App\Proposal::STATUS_DRAFT)

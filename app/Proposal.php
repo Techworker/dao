@@ -21,7 +21,9 @@ class Proposal extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'voting_from',
+        'voting_to'
     ];
 
     public const STATUS_DRAFT = 'draft';
@@ -43,6 +45,13 @@ class Proposal extends Model
         self::STATUS_ABORTED => 'ABORTED',
         self::STATUS_COMPLETED => 'COMPLETED',
         self::STATUS_SUSPENDED => 'SUSPENDED'
+    ];
+
+    public const VOTING_TYPE_BLOCKCHAIN = 'blockchain';
+    public const VOTING_TYPE_DISCORD = 'discord';
+    public const VOTING_TYPES = [
+        self::VOTING_TYPE_BLOCKCHAIN => 'BLOCKCHAIN',
+        self::VOTING_TYPE_DISCORD => 'DISCORD'
     ];
 
     /**

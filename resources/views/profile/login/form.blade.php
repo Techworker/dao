@@ -5,8 +5,12 @@
 @extends('profile')
 
 @section('sub')
-    <h3>Your login data</h3>
-    <p>Use this form to change your login data and private profile.</p>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Your login data</h3>
+            <p>Use this form to change your login data and private profile.</p>
+        </div>
+    </div>
     <form id="form-login">
         <div class="form-group">
             <label for="user-name">Username</label>

@@ -17,11 +17,11 @@
 
 <nav class="navbar navbar-expand-md navbar-light navbar-main">
     <div class="container">
-        <a class="navbar-brand" href="http://46.101.132.117">
-            <img src="https://www.pascalcoin.org/images/logo.png"> DAO
+        <a class="navbar-brand" href="/">
+            <img src="/images/logo_white.png"> DAO
         </a>
         <ul class="nav navbar-nav navbar-right navbar-main">
-            <li><span class="badge badge-pill badge-info">Block 257341</span></li>
+            <li><span class="badge badge-warning p-2">Voting active for<br />PHP Library</span></li>
         </ul>
     </div>
 </nav>
@@ -33,20 +33,23 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+                <li class="nav-item{{\Request::is('proposals*') ? ' active' : ''}}">
                     <a class="nav-link" href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}">Discover<span>Proposals</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="http://46.101.132.117/explorer/blocks">Foundation<span>DATA</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item{{\Request::is('contact*') ? ' active' : ''}}">
                     <a class="nav-link" href="{{\App\Http\Actions\Contact\ShowAction::route()}}">Contact<span>Get in touch</span></a>
                 </li>
             </ul>
             @if(\Auth::check())
             <ul class="nav navbar-nav navbar-right navbar-main">
-                <li class="nav-item">
+                <li class="nav-item{{\Request::is('profile*') ? ' active' : ''}}">
                     <a class="nav-link text-right" href="{{\App\Http\Actions\Profile\DashboardAction::route()}}">Profile<span>View Profile</span></a>
+                </li>
+                <li class="nav-item{{\Request::is('profile*') ? ' active' : ''}}">
+                    <a class="nav-link text-right" href="{{route('logout')}}">Logout<span>{{\Auth::user()->name}}</span></a>
                 </li>
 
             </ul>
@@ -66,18 +69,18 @@
 </nav>
 
 
+@if(session()->has('flash'))
 <div class="container p-4">
-    @if(session()->has('flash'))
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             {{session()->get('flash')}}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    @endif
-    @yield('content')
-
 </div>
+@endif
+@yield('content')
+
 <footer class="footer">
     <div class="container">
                 <span class="text-muted">

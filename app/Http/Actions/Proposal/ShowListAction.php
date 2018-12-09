@@ -25,7 +25,7 @@ class ShowListAction extends AbstractAction
         if($status === 'all') {
             foreach(Proposal::STATUS_TYPES as $key => $value) {
                 if($key !== 'draft') {
-                    $proposals[$key] = Proposal::currentStatus($key)->orderBy('created_at', 'DESC')->take(3)->get();
+                    $proposals[$key] = Proposal::currentStatus($key)->orderBy('created_at', 'DESC')->get();
                 }
             }
         } else {

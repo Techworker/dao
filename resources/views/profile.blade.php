@@ -5,6 +5,8 @@
 @extends('layouts.app2')
 
 @section('content')
+    <div class="container p-4">
+    <h2>Profile</h2>
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link{{\App\Http\Actions\Profile\DashboardAction::isActiveRoute() ? ' active' : ''}}" href="{{\App\Http\Actions\Profile\DashboardAction::route()}}">Dashboard</a>
@@ -19,7 +21,8 @@
             <a class="nav-link{{\Request::is('*profile/proposal*') ? ' active' : '' }}" href="{{\App\Http\Actions\Profile\Proposal\ShowListAction::route()}}">Proposals</a>
         </li>
     </ul>
-    <div class="tab-content bg-white p-4">
-    @yield('sub')
+    <div class="tab-content p-2 pt-3">
+        @yield('sub')
+    </div>
     </div>
 @endsection

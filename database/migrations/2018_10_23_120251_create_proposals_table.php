@@ -26,6 +26,12 @@ class CreateProposalsTable extends Migration
             $table->longText('notes_contractor')->nullable();
             $table->longText('notes_internal')->nullable();
             $table->string('website')->nullable();
+            $table->enum('voting_type', [
+                \App\Proposal::VOTING_TYPE_DISCORD,
+                \App\Proposal::VOTING_TYPE_BLOCKCHAIN]
+            )->default(\App\Proposal::VOTING_TYPE_DISCORD);
+            $table->dateTime('voting_start')->nullable();
+            $table->dateTime('voting_end')->nullable();
             $table->string('source_code')->nullable();
             $table->string('proposed_value')->nullable();
             $table->string('proposed_currency')->nullable();

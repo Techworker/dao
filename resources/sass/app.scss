@@ -1,10 +1,34 @@
 // Bootstrap
 @import './_variables';
+
+$color-pascal: #f79321;
+$color-pascal-contrast: #2f3542;
+$color-pascal-contrast-light: lighten($color-pascal-contrast, 10%);;
+$body-color: $color-pascal-contrast;
+$nav-tabs-border-color: #ddd;
+$border-radius: 0 !default;
+$list-group-active-color: white;
+$list-group-active-bg: $color-pascal;
+$list-group-border-width: 0;
+$list-group-item-padding-y: 10px;
+$list-group-item-padding-x: 10px;
+$list-group-hover-bg: lighten($color-pascal, 40%);
+$warning: $color-pascal;
+$input-color: $color-pascal-contrast;
+$text-muted: $color-pascal-contrast;
+$blue: $color-pascal-contrast;
+$primary:       $color-pascal-contrast !default;
+$secondary:     $color-pascal !default;
+$input-btn-focus-width:       .2rem !default;
+$input-btn-focus-box-shadow:  0 0 0 $input-btn-focus-width $color-pascal-contrast !default;
+
+
 @import '~bootstrap/scss/bootstrap';
 @import './materia';
 
 @import "~medium-editor/dist/css/medium-editor.css";
 @import "~medium-editor/dist/css/themes/flat.css";
+
 
 @import './loading';
 
@@ -13,10 +37,16 @@ body {
 }
 
 .navbar {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #2f3542;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   &.navbar-main {
     padding: 10px;
+  }
+  &.navbar-sub {
+    padding: 10px;
+    padding-bottom: 0;
+    padding-top: 0;
+    background-color: $color-pascal;
   }
   ul > li.nav-item {
     position: relative;
@@ -47,25 +77,32 @@ body {
         padding-left: 1em;
       }
     }
+    &.active {
+      a {
+        text-decoration: underline;
+        span {
+          text-decoration: none !important;
+        }
+      }
+    }
     a {
+      color: white !important;
       text-decoration: none;
       text-transform: uppercase;
       &.nav-link {
-        font-weight: 600;
-        color: black !important;
+        font-weight: 800;
+        font-size: 1.1em;
         span {
-          color: #666;
+          color: white;
           font-size: .9em;
           font-weight: 300;
           display: block;
+          text-decoration: none !important;
         }
 
       }
-      > .active a {
-        text-decoration: underline;
-        font-weight: 600;
-      }
     }
+
   }
 }
 
@@ -84,4 +121,81 @@ body {
 
 .editable {
   height: auto;
+  background-color: #e0e0e0;
+  padding: 10px;
+}
+
+form {
+  input, select, textarea {
+    &.form-control {
+      background-color: #e0e0e0;
+      padding: 10px;
+      &:focus {
+        border: 1px solid #e0e0e0;
+      }
+    }
+
+  }
+}
+
+.badge-main {
+  background-color: $color-pascal;
+  color: white;
+}
+.badge-contrast {
+  background-color: $color-pascal-contrast;
+  color: white;
+}
+
+.nav-tabs li.nav-item a.nav-link {
+  color: $color-pascal-contrast;
+  &:hover, &:active, &:focus {
+    color: $color-pascal-contrast;
+    -webkit-box-shadow: inset 0 -2px 0 $color-pascal-contrast;
+    box-shadow: inset 0 -2px 0 $color-pascal-contrast;
+  }
+  &.active {
+    color: $color-pascal-contrast;
+    -webkit-box-shadow: inset 0 -2px 0 $color-pascal-contrast;
+    box-shadow: inset 0 -2px 0 $color-pascal-contrast;
+    &:hover, &:active, &:focus {
+      -webkit-box-shadow: inset 0 -2px 0 $color-pascal-contrast;
+      box-shadow: inset 0 -2px 0 $color-pascal-contrast;
+      color: $color-pascal-contrast;
+    }
+  }
+}
+
+label {
+  font-weight: 600;
+  &:after {
+    content: ":"
+  }
+}
+
+.navbar-light .navbar-brand {
+  color: white !important;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+.hero {
+  padding: 8.5rem 0;
+  background: url(https://d19m59y37dris4.cloudfront.net/appton/1-0/img/hero-bg.svg) no-repeat;
+  background-size: cover;
+  background-position: bottom left;
+  h1 {
+    font-size: 3em;
+  }
+}
+
+section {
+  padding: 7rem 0;
+}
+
+.card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }

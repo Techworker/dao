@@ -8,6 +8,7 @@ use App\Nova\Lenses\ProposalsToApprove;
 use App\Nova\Metrics\ProposalsPerStatus;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -57,25 +58,37 @@ class Proposal extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Ident Code'),
-            BelongsTo::make('Contractor', 'proposerContractor'),
+            Text::make('Ident Code')->help('ident code for payloads'),
             Text::make('Title')
                 ->sortable()
                 ->rules('required', 'max:255'),
             Text::make('Latest Status', function () {
-                return \App\Proposal::STATUS_TYPES[(string)$this->latestStatus()];
-            }),
-            Textarea::make('Description')->alwaysShow(),
-            Textarea::make('Payment Proposal')->alwaysShow(),
+                if($this->latestStatus() !== null) {
+                    return \App\Proposal::STATUS_TYPES[(string)$this->latestStatus()];
+                }
+
+                return null;
+            })->hideWhenCreating()->hideWhenUpdating(),
+            BelongsTo::make('Contractor', 'proposerContractor'),
+            Text::make('Intro')->hideFromIndex(),
+            Textarea::make('Description')->hideFromIndex()->alwaysShow(),
+            Textarea::make('Payment Proposal')->hideFromIndex()->alwaysShow(),
+            Textarea::make('Notes Contractor')->hideFromIndex()->alwaysShow(),
+            Textarea::make('Notes Internal')->hideFromIndex()->alwaysShow(),
             Text::make('Website')->hideFromIndex(),
             Text::make('Source Code')->hideFromIndex(),
             Number::make('Proposed Value')->hideFromIndex(),
             Select::make('Proposed Currency')->options(
                 MoneyValue::TYPES
-            )->hideFromIndex()->resolveUsing(function ($name) {
-                return MoneyValue::TYPES[$name];
-            }),
+            )->hideFromIndex(),
             Image::make('Logo')->disk('public')->path('proposals')->hideFromIndex(),
+            Select::make('Voting Type')->options(
+                \App\Proposal::VOTING_TYPES
+            )->hideFromIndex(),
+            DateTime::make('Voting Start'),
+            DateTime::make('Voting End'),
+
+
             MorphMany::make('All Statuses', 'statuses', Status::class),
 
             HasMany::make('Contracts', 'contracts', Contract::class),

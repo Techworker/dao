@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use App\MoneyValue;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
 
 class ProposalRequest extends FormRequest
 {
@@ -34,5 +36,18 @@ class ProposalRequest extends FormRequest
                 Rule::in(array_keys(MoneyValue::TYPES))
             ]
         ];
+    }
+
+    public function withValidator(Validator $validator)
+    {
+        $validator->sometimes('proposal-document-1-title', 'required', function ($input) {
+            return $input['proposal-document-1-file'] instanceof UploadedFile;
+        });
+        $validator->sometimes('proposal-document-2-title', 'required', function ($input) {
+            return $input['proposal-document-2-file'] instanceof UploadedFile;
+        });
+        $validator->sometimes('proposal-document-3-title', 'required', function ($input) {
+            return $input['proposal-document-3-file'] instanceof UploadedFile;
+        });
     }
 }
