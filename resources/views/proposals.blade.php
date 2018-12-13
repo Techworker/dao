@@ -21,6 +21,8 @@
                     Suspended proposals
                 @endif
                 </h2>
+                    @if(count($subProposals) === 0)
+                        <div class="alert alert-primary">No Proposals found.</div>@endif
                 @endif
                 <div class="row">
                     @foreach($subProposals as $proposal)

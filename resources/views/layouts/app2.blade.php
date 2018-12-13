@@ -18,7 +18,7 @@
 <nav class="navbar navbar-expand-md navbar-light navbar-main">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="/images/logo_white.png"> DAO
+            <img src="/images/logo_white.png"> Pasconomy
         </a>
         <ul class="nav navbar-nav navbar-right navbar-main">
             <li><span class="badge badge-warning p-2">Voting active for<br />PHP Library</span></li>
@@ -36,8 +36,8 @@
                 <li class="nav-item{{\Request::is('proposals*') ? ' active' : ''}}">
                     <a class="nav-link" href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}">Discover<span>Proposals</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="http://46.101.132.117/explorer/blocks">Foundation<span>DATA</span></a>
+                <li class="nav-item{{\Request::is('foundation*') ? ' active' : ''}}">
+                    <a class="nav-link" href="{{\App\Http\Actions\Foundation\ShowAction::route()}}">Foundation<span>DATA</span></a>
                 </li>
                 <li class="nav-item{{\Request::is('contact*') ? ' active' : ''}}">
                     <a class="nav-link" href="{{\App\Http\Actions\Contact\ShowAction::route()}}">Contact<span>Get in touch</span></a>

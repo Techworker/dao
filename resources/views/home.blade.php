@@ -10,15 +10,20 @@
         <div class="container mb-5">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="hero-heading mb-0">PascalCoin Foundation<br>DAO</h1>
+                    <h1 class="hero-heading mb-0">Pascal Pasconomy</h1>
                     <div class="row">
                         <div class="col-lg-10">
-                            <p class="lead text-muted mt-4 mb-4">Build for PascalCoin.</p>
+                            <p class="lead text-muted mt-4 mb-4">Build for PascalCoin, sponsored by the PascalCoin Foundation.</p>
                         </div>
                     </div>
                     <form action="#" class="subscription-form">
                         <div class="form-group">
-                            <a class="btn btn-warning" href="{{route('register')}}">Register Now</a>
+                            @auth
+                                <a class="btn btn-warning" href="{{\App\Http\Actions\Profile\DashboardAction::route()}}">Go to your profile</a>
+                            @endauth
+                            @guest
+                                <a class="btn btn-warning" href="{{route('register')}}">Register Now</a>
+                            @endguest
                             <a class="btn btn-info" href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}">Browse Proposals</a>
                         </div>
                     </form>

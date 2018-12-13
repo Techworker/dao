@@ -61,8 +61,7 @@
     <div class="row">
         <div class="col-md-12">
             <p class="text-muted">
-                <strong>*</strong> These fields are required. Contact form template by
-                <a href="https://bootstrapious.com/p/how-to-build-a-working-bootstrap-contact-form" target="_blank">Bootstrapious</a>.</p>
+                <strong>*</strong> These fields are required.</p>
         </div>
     </div>
     </div>

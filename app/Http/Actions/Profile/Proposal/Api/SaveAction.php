@@ -36,7 +36,7 @@ class SaveAction extends AbstractAction
             $logo = $request->file('proposal-logo')->store('proposals', 'public');
         }
 
-        if($proposal->status() === Proposal::STATUS_DRAFT || $proposal->status === Proposal::STATUS_SUBMITTED) {
+        if((string)$proposal->status() === Proposal::STATUS_DRAFT || (string)$proposal->status === Proposal::STATUS_SUBMITTED) {
             if($request->get('proposal-status') === Proposal::STATUS_DRAFT || $request->get('proposal-status') === Proposal::STATUS_SUBMITTED) {
                 if($request->get('proposal-status') === Proposal::STATUS_DRAFT) {
                     $reason = 'You changed status to draft.';

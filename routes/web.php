@@ -22,6 +22,7 @@ Route::get('/proposals/{proposal}/{slug}/payouts/{contract}', pascRoute(Actions\
 Route::get('/contractor/{contractor}/{slug}', pascRoute(Actions\Contractor\ShowAction::class));
 
 Route::get('/contact', pascRoute(Actions\Contact\ShowAction::class));
+Route::get('/foundation', pascRoute(Actions\Foundation\ShowAction::class));
 
 Route::get('/profile', pascRoute(Actions\Profile\DashboardAction::class));
 Route::get('/profile/login-data', pascRoute(Actions\Profile\Login\ShowAction::class));
