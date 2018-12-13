@@ -80,35 +80,25 @@
                 </div>
                 <div class="tab-pane fade" id="discussion" role="tabpanel" aria-labelledby="discussion-tab">
                     <h3>Questions &amp; Answers.</h3>
-                    <p>A simple Q&amp;A where users can ask questions and the proposer can anwser these questions.</p>
-                    <div class="card">
-                        <div class="card-body">
-                            <img src="http://bootdey.com/img/Content/user_1.jpg" alt="..." class="img-thumbnail float-left mr-3">
-                            <h5 class="card-title">Benjamin Ansbach</h5>
-                            <p class="card-text">
-                                hjfdskfndskjfndsk
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">asked 3 mins ago</small>
-                        </div>
-                    </div>
+                    <p>Embedded forum thread (Flarum)</p>
 
                 </div>
                 <div class="tab-pane fade" id="voting" role="tabpanel" aria-labelledby="voting-tab">
                     <h3>Voting</h3>
-                    <p>A simple Q&amp;A where users can ask questions and the proposer can anwser these questions.</p>
+                    <p>
                     @if($proposal->voting_type === $proposal::VOTING_TYPE_BLOCKCHAIN)
                         The vote will happen on the blockchain.
                     @else
                         The vote will happen on discord in the #polls channel.
                     @endif
-
+                    </p>
+                    <p>
                     @if($proposal->vote_from === null)
                         No voting dates set yet.
                     @else
                         Voting will take place from {{$proposal->voting_start->toDateTimeString()}} to {{$proposal->voting_end->toDateTimeString()}} (UTC)
                     @endif
+                    </p>
                 </div>
                 <div class="tab-pane fade" id="contractors" role="tabpanel" aria-labelledby="contractors-tab">
                     <h3>Contracts</h3>
@@ -140,6 +130,26 @@
                 <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="payments-tab">
                     <h3>Payments</h3>
                     <p>The list of payments made by the foundation for the proposal.</p>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>PASA</th>
+                            <th>Payload</th>
+                            <th>Contract</th>
+                            <th class="text-right">Amount</th>
+                        </tr>
+                        </thead>
+                        <body>
+                        <tr>
+                            <td>2018-12-12</td>
+                            <td>6780-12</td>
+                            <td>Project/test/1</td>
+                            <td><a href="contract">Contract #12321</a></td>
+                            <td class="text-right">1200.0000 PASC</td>
+                        </tr>
+                        </body>
+                    </table>
                 </div>
             </div>
         </div>

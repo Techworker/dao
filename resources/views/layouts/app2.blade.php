@@ -48,7 +48,7 @@
                 <li class="nav-item{{\Request::is('profile*') ? ' active' : ''}}">
                     <a class="nav-link text-right" href="{{\App\Http\Actions\Profile\DashboardAction::route()}}">Profile<span>View Profile</span></a>
                 </li>
-                <li class="nav-item{{\Request::is('profile*') ? ' active' : ''}}">
+                <li class="nav-item">
                     <a class="nav-link text-right" href="{{route('logout')}}">Logout<span>{{\Auth::user()->name}}</span></a>
                 </li>
 
