@@ -51,9 +51,11 @@ class Proposal extends Model
 
     public const VOTING_TYPE_BLOCKCHAIN = 'blockchain';
     public const VOTING_TYPE_DISCORD = 'discord';
+    public const VOTING_TYPE_NONE = 'none';
     public const VOTING_TYPES = [
         self::VOTING_TYPE_BLOCKCHAIN => 'BLOCKCHAIN',
-        self::VOTING_TYPE_DISCORD => 'DISCORD'
+        self::VOTING_TYPE_DISCORD => 'DISCORD',
+        self::VOTING_TYPE_NONE => 'NONE',
     ];
 
     /**

@@ -28,7 +28,8 @@ class CreateProposalsTable extends Migration
             $table->string('website')->nullable();
             $table->enum('voting_type', [
                     \App\Proposal::VOTING_TYPE_DISCORD,
-                    \App\Proposal::VOTING_TYPE_BLOCKCHAIN]
+                    \App\Proposal::VOTING_TYPE_BLOCKCHAIN,
+                    \App\Proposal::VOTING_TYPE_NONE]
             )->default(\App\Proposal::VOTING_TYPE_DISCORD);
             $table->dateTime('voting_start')->nullable();
             $table->dateTime('voting_end')->nullable();

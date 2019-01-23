@@ -78,8 +78,10 @@
                 <div class="tab-pane fade" id="voting" role="tabpanel" aria-labelledby="voting-tab">
                     <h3>Voting</h3>
                     <p>
-                    @if($proposal->voting_type === $proposal::VOTING_TYPE_BLOCKCHAIN)
-                        The vote will happen on the blockchain.
+                        @if($proposal->voting_type === $proposal::VOTING_TYPE_BLOCKCHAIN)
+                            The vote will happen on the blockchain.
+                            @elseif($proposal->voting_type === $proposal::VOTING_NONE)
+                                No voting setup yet.
                     @else
                         The vote will happen on discord in the #polls channel.
                     @endif
