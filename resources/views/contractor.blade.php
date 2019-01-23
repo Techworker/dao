@@ -9,7 +9,9 @@
         </div>
         <div class="row">
             <div class="col-md-12">
+                <div class="from-editable">
                 {!! $contractor->bio_html !!}
+                </div>
             </div>
         </div>
     </div>
