@@ -19,7 +19,7 @@
             <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="{{asset('storage/' . $proposal->logo)}}" alt="Proposal logo">
+                        <img class="d-block w-100" src="{{asset('storage/' . $proposal->logo)}}" alt="Proposal logo" style="max-width: 100%;">
                     </div>
                 </div>
             </div>
