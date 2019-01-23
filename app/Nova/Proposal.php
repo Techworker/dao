@@ -89,7 +89,7 @@ class Proposal extends Resource
             DateTime::make('Voting End'),
             Number::make('Voting Result Pro')->hideFromIndex(),
             Number::make('Voting Result Contra')->hideFromIndex(),
-            Text::make('Forum link'),
+            Text::make('Forum link')->hideFromIndex(),
 
             MorphMany::make('All Statuses', 'statuses', Status::class),
 

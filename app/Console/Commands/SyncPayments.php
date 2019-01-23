@@ -90,8 +90,8 @@ class SyncPayments extends Command
                 }
             }
             $allOps = array_merge($allOps, $newOps);
-            foreach($newOps as $newOp) {
-                if ($newOp['block'] < $untilBlock) {
+            foreach($ops as $op) {
+                if ($op['block'] < $untilBlock) {
                     return $allOps;
                 }
             }
@@ -162,7 +162,7 @@ class SyncPayments extends Command
             $latestPayment = FoundationPayment::where('from_pasa', $acc)->orderBy('time', 'DESC')->first();
             $block = 0;
             if($latestPayment !== null) {
-                $block = $latestPayment->block - 1000;
+                $block = $latestPayment->block - 500;
             }
 
             $ops = $this->getAccountOperations('http://127.0.0.1:4003', $acc, [1], $block);
@@ -184,15 +184,17 @@ class SyncPayments extends Command
                     $payment->time = $op['time'];
                     $payment->save();
                 }
+            }
+        }
 
-                if($payment !== null) {
-                    $contracts = Contract::wherePasa($payment->to_pasa)->get();
-                    foreach ($contracts as $contract) {
-                        if ($contract->payload() === $payment->payload) {
-                            $contract->payment_id = $payment->id;
-                            $contract->save();
-                        }
-                    }
+        $payments = FoundationPayment::all();
+        $contracts = Contract::all();
+        foreach($payments as $payment) {
+            $subContracts = $contracts->where('pasa', '=', $payment->to_pasa)->get();
+            foreach ($subContracts as $subContract) {
+                if ($subContract->payload() === $payment->payload) {
+                    $payment->contract_id = $subContract->id;
+                    $payment->save();
                 }
             }
         }
