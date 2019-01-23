@@ -78,10 +78,10 @@
                 <div class="tab-pane fade" id="voting" role="tabpanel" aria-labelledby="voting-tab">
                     <h3>Voting</h3>
                     <p>
-                        @if($proposal->voting_type === $proposal::VOTING_TYPE_BLOCKCHAIN)
-                            The vote will happen on the blockchain.
-                            @elseif($proposal->voting_type === $proposal::VOTING_TYPE_NONE)
-                                No voting setup yet.
+                    @if($proposal->voting_type === $proposal::VOTING_TYPE_BLOCKCHAIN)
+                        The vote will happen on the blockchain.
+                    @elseif($proposal->voting_type === $proposal::VOTING_TYPE_NONE)
+                        No voting setup yet.
                     @else
                         The vote will happen on discord in the #polls channel.
                     @endif
@@ -90,7 +90,15 @@
                     @if($proposal->voting_start === null)
                         No voting dates set yet.
                     @else
-                            Voting will take place from <u>{{$proposal->voting_start->toDateTimeString()}} to {{$proposal->voting_end->toDateTimeString()}} (UTC)</u>
+                        Voting will take place from <u>{{$proposal->voting_start->toDateTimeString()}} to {{$proposal->voting_end->toDateTimeString()}} (UTC)</u>
+                    @endif
+                    @if($proposal->voting_result_pro > 0 || $proposal->voting_result_contra > 0)
+                        Voting ended, Result: {{$proposal->voting_result_pro}}/{{$proposal->voting_result_contra}}.
+                        @if($proposal->voting_result_pro > $proposal->voting_result_contra)
+                            <br />The proposal was accepted by {{$proposal->voting_result_pro - $proposal->voting_result_contra}} votes.
+                        @else
+                             <br />The proposal was NOT accepted by {{$proposal->voting_result_contra - $proposal->voting_result_pro}} negative votes.
+                        @endif
                     @endif
                     </p>
                 </div>
