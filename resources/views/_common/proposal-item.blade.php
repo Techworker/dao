@@ -3,10 +3,12 @@
     <div class="card mb-4" style="width: 100%;">
         @if($proposal->logo !== null)
             <a href="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route(['proposal' => $proposal])}}"><img class="card-img-top" src="{{asset('storage/' . $proposal->logo)}}" alt="{{$proposal->title}}"></a>
+        @else
+            <a href="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route(['proposal' => $proposal])}}"><img class="card-img-top" src="{{asset('images/default-header.png')}}" alt="{{$proposal->title}}"></a>
         @endif
         <div class="card-body">
             <span class="item-status item-status-{{strtolower($proposal->latestStatus()->name)}}" data-readable="{{\App\Proposal::STATUS_TYPES[$proposal->latestStatus()->name]}}"><i class="fas fa-check"></i></span>
-            <h5 class="card-title {{$proposal->logo === null ? 'mt-3' : ''}}">
+            <h5 class="card-title">
                 @if($admin === true)
                     <a href="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route(['proposal' => $proposal])}}">{{$proposal->title}}</a>
                 @else
