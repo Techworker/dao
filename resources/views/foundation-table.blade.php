@@ -6,7 +6,7 @@
         <th>To</th>
         <th>Amount</th>
         <th>Payload</th>
-        <th>Contract</th>
+        <th>Project</th>
     </tr>
     </thead>
     <tbody>
@@ -18,7 +18,9 @@
             <td>{{$payment->amount}}</td>
             <td style="word-break: break-all">{{$payment->payload}}</td>
             <td>
-                <?php var_dump($payment->contract->id); ?>
+                @if($payment->contract !== null)
+                    {{$payment->contract->proposal->title}}
+                @endif
             </td>
         </tr>
 
