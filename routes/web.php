@@ -21,24 +21,30 @@ Route::get('/proposals/{proposal}/{slug}/payouts/{contract}', pascRoute(Actions\
 
 Route::get('/contractor/{contractor}/{slug}', pascRoute(Actions\Contractor\ShowAction::class));
 
-Route::get('/contact', pascRoute(Actions\Contact\ShowAction::class));
+//Route::get('/contact', pascRoute(Actions\Contact\ShowAction::class));
+Route::get('/voting', pascRoute(Actions\Voting\ShowAction::class));
 Route::get('/foundation', pascRoute(Actions\Foundation\ShowAction::class));
 
 Route::get('/profile', pascRoute(Actions\Profile\DashboardAction::class));
 Route::get('/profile/login-data', pascRoute(Actions\Profile\Login\ShowAction::class));
 Route::post('/profile/login-data', pascRoute(Actions\Profile\Login\Api\SaveAction::class));
 
+Route::get('/profile/help', pascRoute(Actions\Profile\ShowHelpAction::class));
+Route::get('/profile/contracts', pascRoute(Actions\Profile\ShowContractsAction::class));
+Route::post('/profile/contracts/{contract}/tax_file', pascRoute(Actions\Profile\Contract\Api\UploadTaxAction::class));
+
 Route::get('/profile/contractor/{contractor?}', pascRoute(Actions\Profile\Contractor\ShowFormAction::class));
 Route::get('/profile/contractor/{contractor}/delete', pascRoute(Actions\Profile\Contractor\DeleteAction::class));
 Route::get('/profile/contractors', pascRoute(Actions\Profile\Contractor\ShowListAction::class));
 Route::post('/profile/contractor/{contractor?}', pascRoute(Actions\Profile\Contractor\Api\SaveAction::class));
+Route::post('/profile/contractor/{contractor}/kyc', pascRoute(Actions\Profile\Contractor\Api\KycAction::class));
+Route::post('/profile/contractor/{contractor}/kyc/revoke', pascRoute(Actions\Profile\Contractor\Api\KycRevokeAction::class));
 
 Route::get ('/profile/proposals', pascRoute(Actions\Profile\Proposal\ShowListAction::class));
 Route::get ('/profile/proposal/delete/{proposal}', pascRoute(Actions\Profile\Proposal\DeleteAction::class));
 Route::get ('/profile/proposal/{proposal?}', pascRoute(Actions\Profile\Proposal\ShowFormAction::class));
-Route::get ('/profile/proposal/submit/{proposal}', pascRoute(Actions\Profile\Proposal\SubmitAction::class));
-Route::get ('/profile/proposal/revoke/{proposal}', pascRoute(Actions\Profile\Proposal\RevokeAction::class));
 Route::post('/profile/proposal/{proposal?}', pascRoute(Actions\Profile\Proposal\Api\SaveAction::class));
+Route::post('/profile/proposal/{proposal}/submit', pascRoute(Actions\Profile\Proposal\Api\SubmitAction::class));Route::post('/profile/proposal/{proposal}/submit/revoke', pascRoute(Actions\Profile\Proposal\Api\SubmitRevokeAction::class));
 
 Route::get ('/profile/proposals/{proposal}/documents/create', pascRoute(Actions\Profile\ProposalDocument\ShowCreateFormAction::class));
 Route::get ('/profile/proposals/{proposal}/documents/{document}/delete', pascRoute(Actions\Profile\ProposalDocument\DeleteAction::class));

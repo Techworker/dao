@@ -20,20 +20,19 @@ class CreateContractsTable extends Migration
             $table->unsignedInteger('proposal_id');
             $table->unsignedInteger('contractor_id');
 
-            $table->enum('type', array_keys(\App\Contract::TYPES))->default(key(\App\Contract::TYPES));
-            $table->enum('payout_type', array_keys(\App\Contract::PAYOUT_TYPES))->default(key(\App\Contract::PAYOUT_TYPES));
             $table->boolean('needs_feedback')->default(false);
 
-            $table->date('start');
-            $table->date('end')->nullable();
+            $table->date('start_date');
+            $table->date('payment_date')->nullable();
 
             $table->string('total_value');
-            $table->string('total_currency');
 
             $table->string('role')->nullable();
             $table->longText('role_description')->nullable();
+            $table->longText('payment_description')->nullable();
             $table->string('pasa')->nullable();
-            $table->string('payload')->nullable();
+            $table->string('payload_overwrite')->nullable();
+            $table->string('tax_declaration')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

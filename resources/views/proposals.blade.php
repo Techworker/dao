@@ -5,39 +5,28 @@
     <div class="row">
         <div class="col-md-9">
             @foreach($proposals as $type => $subProposals)
-                @if($status !== 'all')
                 <h2 class="mb-3 mt-3">
-                @if($type === "submitted")
-                    Submitted proposals
+                @if($type === "public")
+                    Submitted and Public Projects
+                @elseif($type === "all")
+                    All Projects
                 @elseif($type === "approved")
-                    Approved proposals
+                    Approved Projects
                 @elseif($type === "activated")
-                    Activated proposals
+                    Activated Projects
                 @elseif($type === "aborted")
-                    Aborted proposals
+                    Aborted Projects
                 @elseif($type === "completed")
-                    Completed proposals
+                    Completed Projects
                 @elseif($type === "suspended")
-                    Suspended proposals
+                    Suspended Projects
                 @endif
                 </h2>
                     @if(count($subProposals) === 0)
-                        <div class="alert alert-primary">No Proposals found.</div>@endif
-                @endif
+                        <div class="alert alert-primary">No Projects found.</div>@endif
                 <div class="row">
                     @foreach($subProposals as $proposal)
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                @if($proposal->logo !== null)
-                                    <img class="card-img-top" src="{{asset('/storage/' . $proposal->logo)}}" alt="Card image cap">
-                                @endif
-                                <div class="card-body">
-                                    <h5 class="card-title">{{$proposal->title}}</h5>
-                                    <p class="card-text">{{$proposal->intro}}</p>
-                                    <a href="{{\App\Http\Actions\Proposal\ShowDetailAction::route(['proposal' => $proposal, 'slug' => $proposal->slug])}}" class="card-link float-right">Show proposal</a>
-                                </div>
-                            </div>
-                        </div>
+                        @include('_common.proposal-item', ['proposal' => $proposal, 'admin' => false, 'colSize' => 6])
                     @endforeach
                 </div>
                 @endforeach
@@ -49,9 +38,9 @@
                     All
                     <span class="badge badge-{!! $status === 'all' ? 'contrast' : 'main' !!}">{{$counts['all']}}</span>
                 </a>
-                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_SUBMITTED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_SUBMITTED ? ' active' : '' !!}">
-                    Submitted
-                    <span class="badge badge-{!! $status === \App\Proposal::STATUS_SUBMITTED ? 'contrast' : 'main' !!}">{{$counts[\App\Proposal::STATUS_SUBMITTED]}}</span>
+                <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_PUBLIC_REVIEW])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_PUBLIC_REVIEW ? ' active' : '' !!}">
+                    Submitted & Public
+                    <span class="badge badge-{!! $status === \App\Proposal::STATUS_PUBLIC_REVIEW ? 'contrast' : 'main' !!}">{{$counts[\App\Proposal::STATUS_PUBLIC_REVIEW]}}</span>
                 </a>
                 <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_APPROVED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_APPROVED ? ' active' : '' !!}">
                     Approved

@@ -44,6 +44,7 @@ class SaveAction extends AbstractAction
         $contractor->logo = $logo;
         $contractor->public_name = $request->get('contractor-public-name');
         $contractor->bio = $request->get('contractor-bio');
+        $contractor->bio_html = $request->get('contractor-bio-html');
         $contractor->first_name = $request->get('contractor-first-name');
         $contractor->last_name = $request->get('contractor-last-name');
         $contractor->company_name = $request->get('contractor-company-name');
@@ -100,48 +101,34 @@ class SaveAction extends AbstractAction
             $fax->save();
         }
 
-        if($request->has('contractor-kyc-passport-delete') !== null) {
-            // now fetch kyc document record
-            $kyc = $contractor->kycDocuments->where('type', KycDocument::TYPE_PASSPORT)->first();
-            if($kyc !== null) {
-                $kyc->file = null;
+        $files = [
+            'passport' => KycDocument::TYPE_PHOTO_PASSPORT,
+            'selfie' => KycDocument::TYPE_PHOTO_SELFIE
+        ];
+
+        foreach($files as $key => $type) {
+            if($request->has('contractor-kyc-' . $key . '-delete') !== null) {
+                // now fetch kyc document record
+                $kyc = $contractor->kycDocuments->where('type', $type)->first();
+                if($kyc !== null) {
+                    $kyc->file = null;
+                    $kyc->save();
+                }
+            }
+
+            if($request->file('contractor-kyc-' . $key) !== null) {
+                $file = $request->file('contractor-kyc-' . $key)->store('kyc', 'local');
+                // now fetch kyc document record
+                $kyc = $contractor->kycDocuments->where('type', $type)->first();
+                if($kyc === null) {
+                    $kyc = new KycDocument();
+                    $kyc->contractor_id = $contractor->id;
+                    $kyc->type = $type;
+                }
+                $kyc->file = $file;
                 $kyc->save();
             }
-        }
 
-        if($request->file('contractor-kyc-passport') !== null) {
-            $file = $request->file('contractor-kyc-passport')->store('kyc', 'local');
-            // now fetch kyc document record
-            $kyc = $contractor->kycDocuments->where('type', KycDocument::TYPE_PASSPORT)->first();
-            if($kyc === null) {
-                $kyc = new KycDocument();
-                $kyc->contractor_id = $contractor->id;
-                $kyc->type = KycDocument::TYPE_PASSPORT;
-            }
-            $kyc->file = $file;
-            $kyc->save();
-        }
-
-        if($request->has('contractor-kyc-address-delete') !== null) {
-            // now fetch kyc document record
-            $kyc = $contractor->kycDocuments->where('type', KycDocument::TYPE_ADDRESS_VERIFICATION)->first();
-            if($kyc !== null) {
-                $kyc->file = null;
-                $kyc->save();
-            }
-        }
-
-        if($request->file('contractor-kyc-address') !== null) {
-            $file = $request->file('contractor-kyc-address')->store('kyc', 'local');
-            // now fetch kyc document record
-            $kyc = $contractor->kycDocuments->where('type', KycDocument::TYPE_ADDRESS_VERIFICATION)->first();
-            if($kyc === null) {
-                $kyc = new KycDocument();
-                $kyc->contractor_id = $contractor->id;
-                $kyc->type = KycDocument::TYPE_ADDRESS_VERIFICATION;
-            }
-            $kyc->file = $file;
-            $kyc->save();
         }
 
         $request->session()->flash('flash', 'Contractor data updated successfully.');

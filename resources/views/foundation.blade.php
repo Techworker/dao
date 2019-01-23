@@ -8,11 +8,19 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
-            Supply Info of 1000-84, whatever
-        </div>
-        <div class="col-md-6">
-            legal data
+        <div class="col-md-12">
+            <h4>Account 1000 - Foundation account</h4>
+            @include('foundation-table', [
+                'payments' => $payments_1000
+            ]);
+            <h4>Account 1001 - OPEX Account</h4>
+            @include('foundation-table', [
+                'payments' => $payments_1001
+            ]);
+            <h4>Account 1002 - OPEX Spain Account</h4>
+            @include('foundation-table', [
+                'payments' => $payments_1002
+            ]);
         </div>
     </div>
     </div>

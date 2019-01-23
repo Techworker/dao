@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInvoicesTable extends Migration
+class CreateFoundationPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,20 @@ class CreateInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('foundation_payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('date');
-            $table->unsignedInteger('contract_id');
+            $table->unsignedInteger('from_pasa');
+            $table->unsignedInteger('to_pasa');
+            $table->decimal('amount', 10, 4);
             $table->string('payload');
-            $table->string('ophash');
-            $table->string('value');
-            $table->string('currency');
-
+            $table->string('block');
+            $table->string('ophash')->index('found_payments_ophash');
+            $table->unsignedInteger('time');
+            $table->unsignedInteger('contract_id')->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('contract_id')->references('id')->on('contracts');
+
         });
     }
 
@@ -36,6 +37,6 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('foundation_payments');
     }
 }

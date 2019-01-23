@@ -15,12 +15,12 @@ class KycDocument extends Model
 {
     use SoftDeletes, HasStatuses;
 
-    public const TYPE_PASSPORT = 'passport';
-    public const TYPE_ADDRESS_VERIFICATION = 'address_verification';
+    public const TYPE_PHOTO_PASSPORT = 'photo_passport';
+    public const TYPE_PHOTO_SELFIE = 'photo_selfie';
 
     public const TYPES = [
-        self::TYPE_PASSPORT => 'Passport',
-        self::TYPE_ADDRESS_VERIFICATION => 'Address verification'
+        self::TYPE_PHOTO_PASSPORT => 'Passport',
+        self::TYPE_PHOTO_SELFIE => 'Selfie with passport'
     ];
 
     protected $dates = [

@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel')}}</title>
 
     <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link href="{{mix('/css/app.css')}}" rel="stylesheet">
 </head>
 
@@ -34,13 +35,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item{{\Request::is('proposals*') ? ' active' : ''}}">
-                    <a class="nav-link" href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}">Discover<span>Proposals</span></a>
+                    <a class="nav-link" href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => 'all'])}}">Discover<span>Projects</span></a>
                 </li>
                 <li class="nav-item{{\Request::is('foundation*') ? ' active' : ''}}">
-                    <a class="nav-link" href="{{\App\Http\Actions\Foundation\ShowAction::route()}}">Foundation<span>DATA</span></a>
+                    <a class="nav-link" href="{{\App\Http\Actions\Foundation\ShowAction::route()}}">Foundation<span>spendings</span></a>
                 </li>
-                <li class="nav-item{{\Request::is('contact*') ? ' active' : ''}}">
-                    <a class="nav-link" href="{{\App\Http\Actions\Contact\ShowAction::route()}}">Contact<span>Get in touch</span></a>
+                <li class="nav-item{{\Request::is('voting*') ? ' active' : ''}}">
+                    <a class="nav-link" href="{{\App\Http\Actions\Voting\ShowAction::route()}}">Voting<span>Upcoming votings</span></a>
                 </li>
             </ul>
             @if(\Auth::check())
@@ -69,16 +70,6 @@
 </nav>
 
 
-@if(session()->has('flash'))
-<div class="container p-4">
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{session()->get('flash')}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-</div>
-@endif
 @yield('content')
 
 <footer class="footer">

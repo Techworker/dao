@@ -7,8 +7,13 @@
 @section('sub')
     <div class="row">
         <div class="col-md-12">
-            <h3>Your login data</h3>
-            <p>Use this form to change your login data and private profile.</p>
+            <div class="intro-box">
+                <h2>Your login data</h2>
+                <p>
+                    Use this form to change your login data and private profile.
+                </p>
+            </div>
+            <hr />
         </div>
     </div>
     <form id="form-login">

@@ -30,11 +30,7 @@ class ProposalRequest extends FormRequest
         return [
             'proposal-title' => 'required|string',
             'proposal-description' => 'required|string',
-            'proposal-proposed-value' => 'required|string',
-            'proposal-proposed-currency' => [
-                'required',
-                Rule::in(array_keys(MoneyValue::TYPES))
-            ]
+            'proposal-proposed-value' => 'required|string'
         ];
     }
 

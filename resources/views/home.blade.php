@@ -64,18 +64,7 @@
 
         <div class="row">
         @foreach($proposals as $proposal)
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                @if($proposal->logo !== null)
-                <img class="card-img-top" src="{{asset('/storage/' . $proposal->logo)}}" alt="Card image cap">
-                @endif
-                <div class="card-body">
-                    <h5 class="card-title">{{$proposal->title}}</h5>
-                    <p class="card-text">{{$proposal->intro}}</p>
-                    <a href="{{\App\Http\Actions\Proposal\ShowDetailAction::route(['proposal' => $proposal, 'slug' => $proposal->slug])}}" class="card-link">Show proposal</a>
-                </div>
-            </div>
-        </div>
+            @include('_common.proposal-item', ['proposal' => $proposal, 'admin' => false])
         @endforeach
     </div>
     </div>

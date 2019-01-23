@@ -9,7 +9,6 @@ require('./bootstrap');
 
 const FormHandler = require('./components/form');
 
-
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -75,4 +74,60 @@ if(document.getElementById('form-contractor')) {
 if(document.getElementById('form-proposal')) {
     new FormHandler(document.getElementById('form-proposal'));
 }
+
+    $(".submit-kyc").on('click', (e) => {
+        var r = confirm('This will submit your contractor record for KYC verification. You will only be able to update the record again if you cancel the process.');
+        if(r === true) {
+            $.post($(e.currentTarget).attr('href')).then(() => {
+                window.location.reload();
+            });
+        }
+
+        e.preventDefault();
+        return false;
+    });
+    $(".submit-kyc-revoke").on('click', (e) => {
+        var r = confirm('This will remove your submission. Are you sure?');
+        if(r === true) {
+            $.post($(e.currentTarget).attr('href')).then(() => {
+                window.location.reload();
+            });
+        }
+
+        e.preventDefault();
+        return false;
+    });
+
+    $(".submit-proposal").on('click', (e) => {
+        var r = confirm('This will submit your proposal. You will only be able to update the record again if you cancel the process.');
+        if(r === true) {
+            $.post($(e.currentTarget).attr('href')).then(() => {
+                window.location.reload();
+            });
+        }
+
+        e.preventDefault();
+        return false;
+    });
+
+    $(".submit-proposal-revoke").on('click', (e) => {
+        var r = confirm('This will remove your submission. Are you sure?');
+        if(r === true) {
+            $.post($(e.currentTarget).attr('href')).then(() => {
+                window.location.reload();
+            });
+        }
+
+        e.preventDefault();
+        return false;
+    });
+
+    $('.upload_tax').on('click', function(e) {
+        var $taxFile = $(e.currentTarget).closest('td').find('.tax_file');
+        $taxFile.on('change', function(e) {
+            $(e.currentTarget).closest('form').find('input[type=submit]').show();
+        });
+        $taxFile.trigger('click');
+        return false;
+    });
 });

@@ -15,7 +15,7 @@ class ShowListAction extends AbstractAction
 
         $counts = [];
         foreach(Proposal::STATUS_TYPES as $key => $label) {
-            if($key !== Proposal::STATUS_DRAFT) {
+            if($key !== Proposal::STATUS_DRAFT && $key !== Proposal::STATUS_SUBMITTED) {
                 $counts[$key] = Proposal::currentStatus($key)->count();
             }
         }
@@ -24,7 +24,7 @@ class ShowListAction extends AbstractAction
         $proposals = [];
         if($status === 'all') {
             foreach(Proposal::STATUS_TYPES as $key => $value) {
-                if($key !== 'draft') {
+                if($key !== 'draft' && $key !== 'submitted') {
                     $proposals[$key] = Proposal::currentStatus($key)->orderBy('created_at', 'DESC')->get();
                 }
             }

@@ -20,6 +20,7 @@ class CreateContractorsTable extends Migration
             $table->string('logo')->nullable();
             $table->string('slug')->nullable();
             $table->longText('bio')->nullable();
+            $table->longText('bio_html')->nullable();
             $table->enum('type', array_keys(\App\Contractor::TYPES))->default(key(\App\Contractor::TYPES));
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();

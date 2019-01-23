@@ -5,6 +5,8 @@ const MediumEditor = require('medium-editor');
 window.MediumEditor = MediumEditor;
 const MeMarkdown = require('medium-editor-markdown/dist/me-markdown.standalone').MeMarkdown;
 
+window.MediumInsert = require('medium-editor-insert-plugin').MediumInsert;
+
 /**
  * A class containing ajax form logic that can be used for multiple forms.
  */
@@ -33,6 +35,15 @@ class Form
                     /* This example includes the default options for placeholder,
                        if nothing is passed this is what it used */
                     text: $el.getAttribute('data-placeholder')
+                }
+            });
+            $(`#${$el.getAttribute('id')}`).mediumInsert({
+                editor: editor,
+                addons: {
+                    embeds: false,
+                    images: {
+                        label: '<span class="fas fa-camera"></span>'
+                    }
                 }
             });
             editor.subscribe('editableInput', (eventObj, editable) => {

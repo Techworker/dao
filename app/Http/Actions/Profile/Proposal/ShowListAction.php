@@ -31,15 +31,20 @@ class ShowListAction extends AbstractAction
     {
         /** @var User $user */
         $user = \Auth::user();
-        $contractor = $user->contractors->first();
+        $contractors = $user->contractors;
+        $proposals = [];
+        foreach($contractors as $contractor) {
+            foreach($contractor->proposals as $proposal) {
+                $proposals[] = $proposal;
+            }
+        }
 
         /** @var array $countries */
         $countries = include base_path('vendor/umpirsky/country-list/data/en/country.php');
 
         return view('profile.proposal.list', [
             'user' => $user,
-            'contractor' => $contractor,
-            'proposals' => $contractor->proposals,
+            'proposals' => $proposals,
             'countries' => $countries,
         ]);
     }

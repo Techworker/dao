@@ -14,8 +14,8 @@
         <div class="col-12">
             <h2 class="title">{{$title}}</h2>
             <p>{{$message}}</p>
-            <a href="{{\Request::url()}}?confirmed=true" class="btn btn-pascal-red" value="Save proposal">Yes</a>
-            <a href="{{ url()->previous() }}" class="btn btn-pascal s" value="Save proposal">No</a>
+            <a href="{{\Request::url()}}?confirmed=true" class="btn btn-pascal-red" value="Save project">Yes</a>
+            <a href="{{ url()->previous() }}" class="btn btn-pascal s" value="Save project">No</a>
         </div>
     </div>
 @endsection

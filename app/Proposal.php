@@ -22,12 +22,13 @@ class Proposal extends Model
         'created_at',
         'updated_at',
         'deleted_at',
-        'voting_from',
-        'voting_to'
+        'voting_start',
+        'voting_end'
     ];
 
     public const STATUS_DRAFT = 'draft';
     public const STATUS_SUBMITTED = 'submitted';
+    public const STATUS_PUBLIC_REVIEW = 'public review';
     public const STATUS_APPROVED = 'approved';
     public const STATUS_ACTIVATED = 'activated';
     public const STATUS_ABORTED = 'aborted';
@@ -40,6 +41,7 @@ class Proposal extends Model
     public const STATUS_TYPES = [
         self::STATUS_DRAFT => 'DRAFT',
         self::STATUS_SUBMITTED => 'SUBMITTED',
+        self::STATUS_PUBLIC_REVIEW => 'PUBLIC REVIEW',
         self::STATUS_APPROVED => 'APPROVED',
         self::STATUS_ACTIVATED => 'ACTIVATED',
         self::STATUS_ABORTED => 'ABORTED',

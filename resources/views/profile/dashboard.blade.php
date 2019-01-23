@@ -9,33 +9,53 @@ $contractor = \Auth::user()->contractors->first();
     <div class="row">
         <div class="col-md-12">
             <h3>Dashboard</h3>
-            <p>Welcome {{$contractor->public_name}}. This is your dashboard which collects all data connected to your profile.</p>
+            <p>Welcome {{$user->name}}. This is your dashboard which collects all data connected to your profile.</p>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
 
-           <h3>Contractor status:</h3>
-            <p>
-                <b>{{\App\Contractor::STATUS[$contractor->latestStatus()->name]}}:</b><br />{{$contractor->latestStatus()->reason}}
-            </p>
-            <h3>Proposal status:</h3>
-            <p>
-            @if($contractor->proposals->count() > 0)
-                <ul>
+            <h3>Your contractor records:</h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                @foreach($user->contractors as $contractor)
+                    <tr>
+                        <td>{{$contractor->publicName()}} ({{$contractor->public_name}})</td>
+                        <td>
+                            {{\App\Contractor::STATUS[$contractor->latestStatus()->name]}}:
+                            {{$contractor->latestStatus()->reason}}
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+            <h3>Your proposed projects:</h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Contractor</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                @foreach($user->contractors as $contractor)
                     @foreach($contractor->proposals as $proposal)
-                        <li>
-                            <b>{{$proposal->title}}</b><br />
-                            Status: {{\App\Proposal::STATUS_TYPES[$proposal->latestStatus()->name]}}<br />
-                            <i>Comment: {{$proposal->latestStatus()->reason}}</i>
-                        </li>
+                        <tr>
+                            <td>{{$proposal->title}}</td>
+                            <td>{{$proposal->proposerContractor->publicName()}}</td>
+                            <td>
+                                {{\App\Proposal::STATUS_TYPES[$proposal->latestStatus()->name]}}:
+                                {{$proposal->latestStatus()->reason}}
+                            </td>
+                        </tr>
                     @endforeach
-                </ul>
-            @else
-                No Proposal created yet.
-                @endif
-                </p>
+                @endforeach
+            </table>
         </div>
     </div>
 @endsection

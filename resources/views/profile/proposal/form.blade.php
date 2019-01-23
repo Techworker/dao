@@ -6,12 +6,15 @@
 @extends('profile')
 
 @section('sub')
-    @if($proposal->id === null)
-        <h3>Create a new proposal</h3>
-    @else
-        <h3>Update proposal record</h3>
-    @endif
-    <p>Use this form to create or update a proposal.</p>
+    <div class="intro-box">
+        @if($proposal->id === null)
+            <h2>Create a new project</h2>
+        @else
+            <h2>Update project record</h2>
+        @endif
+
+    </div>
+    <hr />
     @if($proposal->id === null)
     <form id="form-proposal" action="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route()}}" data-redirect="{{\App\Http\Actions\Profile\Proposal\ShowListAction::route()}}">
     @else
@@ -21,25 +24,17 @@
             <label for="proposal-status">Contractor association</label>
             <select class="form-control" id="proposal-contractor" name="proposal-contractor">
                 @foreach($contractors as $contractor)
-                    <option value="{{$contractor->id}}">{{$contractor->publicName()}}</option>
+                    <option value="{{$contractor->id}}">{{$contractor->publicName()}} ({{$contractor->public_name}})</option>
                 @endforeach
             </select>
             <div class="invalid-feedback"></div>
         </div>
 
         <div class="form-row">
-        <div class="form-group col-md-3">
-        <label for="proposal-status">Status</label>
-        <select class="form-control" id="proposal-status" name="proposal-status">
-            <option value="draft"{!! $proposal->status === "draft" ? ' selected="selected"' : '' !!}}>DRAFT</option>
-            <option value="submitted"{!! $proposal->status === "submitted" ? ' selected="selected"' : '' !!}}>SUBMITTED</option>
-        </select>
-        <div class="invalid-feedback"></div>
-    </div>
 
-    <div class="form- col-md-9">
+    <div class="form- col-md-12">
         <label for="proposal-title">Title</label>
-        <input type="text" class="form-control" id="proposal-title" name="proposal-title" required value="{{$proposal->title}}">
+        <input type="text" class="form-control" id="proposal-title" name="proposal-title" value="{{$proposal->title}}">
         <div class="invalid-feedback"></div>
         <small class="form-text text-muted">This is the public name that everyone can see.</small>
     </div>
@@ -47,7 +42,7 @@
         <div class="form-group">
             <label for="proposal-logo">Choose logo</label>
             <input type="file" class="form-control-file" id="proposal-logo" name="proposal-logo">
-            <small class="form-text text-muted">A logo displayed with your proposal.</small>
+            <small class="form-text text-muted">A logo displayed with your project.</small>
         </div>
 
         @if($proposal->logo !== null)
@@ -60,7 +55,7 @@
         @endif
         <div class="form-group">
             <label for="proposal-intro">Short description</label>
-            <input type="text" class="form-control" id="proposal-intro" name="proposal-intro" required value="{{$proposal->intro}}">
+            <input type="text" class="form-control" id="proposal-intro" name="proposal-intro" value="{{$proposal->intro}}">
             <div class="invalid-feedback"></div>
             <small class="form-text text-muted">A short description of the project.</small>
         </div>
@@ -69,47 +64,41 @@
             <label for="proposal-description">Description</label>
             <div class="editable form-control" id="proposal-description" data-placeholder="">{!! $proposal->description_html !!}</div>
             <div class="invalid-feedback"></div>
-            <small class="form-text text-muted">A description of the proposal. (markdown allowed, a dynamic markdown editor like medium.com is activated)</small>
+            <small class="form-text text-muted">A description of the project. (markdown allowed, a dynamic markdown editor like medium.com is activated)</small>
         </div>
 
         <div class="form-group">
             <label for="user-name">Tags</label>
-            <input type="text" class="form-control" id="proposal-tags" name="proposal-tags" required value="{{$proposal->tags()->pluck('name')->implode(',')}}">
+            <input type="text" class="form-control" id="proposal-tags" name="proposal-tags" value="{{$proposal->tags()->pluck('name')->implode(',')}}">
             <div class="invalid-feedback"></div>
-            <small class="form-text text-muted">Tags associated with the proposal, divided by comma, max 5.</small>
+            <small class="form-text text-muted">Tags associated with the project, divided by comma, max 5.</small>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
             <label for="proposal-website">Website</label>
-            <input type="text" class="form-control" id="proposal-website" name="proposal-website" required value="{{$proposal->website}}">
+            <input type="text" class="form-control" id="proposal-website" name="proposal-website" value="{{$proposal->website}}">
             <div class="invalid-feedback"></div>
-            <small class="form-text text-muted">A website about your proposal (if any).</small>
+            <small class="form-text text-muted">A website about your project (if any).</small>
         </div>
         <div class="form-group col-md-6">
             <label for="proposal-source-code">Source Code Website</label>
-            <input type="text" class="form-control" id="proposal-source-code" name="proposal-source-code" required value="{{$proposal->source_code}}">
+            <input type="text" class="form-control" id="proposal-source-code" name="proposal-source-code" value="{{$proposal->source_code}}">
             <div class="invalid-feedback"></div>
             <small class="form-text text-muted">The website where the source-code can be found (in case of a development project).</small>
         </div>
         </div>
 
         <div class="form-row">
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="proposal-proposed-value">Costs</label>
-                <input type="text" class="form-control" id="proposal-proposed-value" name="proposal-proposed-value" required value="{{$proposal->proposed_value}}">
+                <div class="input-group mb-2 mr-sm-2">
+                    <input type="number" class="form-control" id="proposal-proposed-value" name="proposal-proposed-value" value="{{$proposal->proposed_value}}">
+                    <div class="input-group-append">
+                        <div class="input-group-text"> PASC</div>
+                    </div>
+                </div>
                 <div class="invalid-feedback"></div>
-                <small class="form-text text-muted">The costs of the proposal</small>
-            </div>
-
-            <div class="form-group col-md-3">
-                <label for="proposal-proposed-currency">Currency</label>
-                <select class="form-control" id="proposal-proposed-currency" name="proposal-proposed-currency">
-                    <option value=""></option>
-                    @foreach(\App\MoneyValue::TYPES as $value => $label)
-                        <option value="{{$value}}" {!! $proposal->proposed_currency === $value ? ' selected="selected"' : '' !!}}>{{$label}}</option>
-                    @endforeach
-                </select>
-                <div class="invalid-feedback"></div>
+                <small class="form-text text-muted">The costs of the project</small>
             </div>
 
         </div>

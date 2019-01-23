@@ -12,9 +12,5 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
          $this->call(UserSeeder::class);
-        // Create initial API key
-        DB::connection('flarum')->table('api_keys')->insert([
-            'id' => config('flarum.api_key')
-        ]);
     }
 }

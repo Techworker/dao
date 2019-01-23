@@ -66,24 +66,19 @@ class UserSeeder extends Seeder
 
         $proposal->setStatus(\App\Proposal::STATUS_DRAFT, 'seed');
         $proposal->setStatus(\App\Proposal::STATUS_SUBMITTED, 'seed');
+        $proposal->setStatus(\App\Proposal::STATUS_PUBLIC_REVIEW, 'seed');
 
         $contract = new \App\Contract();
         $contract->proposal_id = $proposal->id;
         $contract->contractor_id = $contractor->id;
-        $contract->type = \App\Contract::TYPE_SALARY;
-        $contract->payout_type = \App\Contract::PAYOUT_TYPE_MONTHLY;
         $contract->needs_feedback = false;
-        $contract->start = \Carbon\Carbon::now();
-        $contract->end = null;
+        $contract->start_date = \Carbon\Carbon::now();
+        $contract->payment_date = null;
         $contract->total_value = 100000;
-        $contract->total_currency = \App\MoneyValue::TYPE_PASC;
         $contract->role = 'Developer';
         $contract->role_description = 'Develops the stuff';
+        $contract->payment_description = 'Ahead payment';
         $contract->pasa = '6780';
-        $contract->payload = 'test123';
         $contract->save();
-
-        $contract->setStatus(\App\Contract::STATUS_INACTIVE, 'seed');
-
     }
 }

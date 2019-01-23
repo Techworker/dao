@@ -21,7 +21,9 @@
     },
     "dependencies": {
         "dom-form-serializer": "^1.0.7",
+        "fine-uploader": "^5.16.2",
         "medium-editor": "^5.23.3",
+        "medium-editor-insert-plugin": "^2.5.0",
         "medium-editor-markdown": "^3.0.0",
         "turndown": "^5.0.1"
     }

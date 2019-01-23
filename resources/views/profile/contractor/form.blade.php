@@ -10,12 +10,15 @@
 @extends('profile')
 
 @section('sub')
+    <div class="intro-box">
     @if($contractor->id === null)
         <h3>Create a new contractor record</h3>
     @else
         <h3>Update contractor record</h3>
     @endif
-    <p>Use this form to change your login data and private profile.</p>
+    <p>Use this form to to create / update your contractor record and submit it to start the KYC process.</p>
+    </div>
+    <hr />
     @if($contractor->id === null)
     <form id="form-contractor" action="{{\App\Http\Actions\Profile\Contractor\ShowFormAction::route()}}" data-redirect="{{\App\Http\Actions\Profile\Contractor\ShowListAction::route()}}">
     @else
@@ -41,8 +44,14 @@
             <label for="user-name">Name (public)</label>
             <input type="text" class="form-control" id="contractor-public-name" name="contractor-public-name" required value="{{$contractor->public_name}}">
             <div class="invalid-feedback"></div>
-            <small class="form-text text-muted">This is the public name that is displayed in proposals.</small>
+            <small class="form-text text-muted">This is the public name that is displayed in projects.</small>
         </div>
+        <div class="form-group">
+            <label for="contractor-bio">Bio</label>
+            <div class="editable form-control" id="contractor-bio" data-placeholder="">{!! $contractor->bio_html !!}</div>
+            <small class="form-text text-muted">A short introduction of the contractor.</small>
+        </div>
+
         <h4>Internal data (private)</h4>
         <div class="form-group">
             <label for="contractor-type">Type</label>
@@ -73,11 +82,6 @@
             <label for="contractor-pasa">PASA</label>
             <input type="text" class="form-control" id="contractor-pasa" name="contractor-pasa" required value="{{$contractor->pasa}}">
             <div class="invalid-feedback"></div>
-        </div>
-        <div class="form-group">
-            <label for="contractor-bio">Bio</label>
-            <textarea class="form-control" id="contractor-bio" name="contractor-bio" rows="5">{{$contractor->bio}}</textarea>
-            <small class="form-text text-muted">A short introduction of the contractor.</small>
         </div>
         <h4>Address / Contact</h4>
         <input type="hidden" id="contractor-address-id" value="{{$address->id}}" />
@@ -148,28 +152,28 @@
                 <div class="form-group">
                     <label for="contractor-kyc-passport">Passport</label>
                     <input type="file" class="form-control-file" id="contractor-kyc-passport" name="contractor-kyc-passport">
-                    <small class="form-text text-muted">A logo displayed next to your public contractor record.</small>
+                    <small class="form-text text-muted">A photo of your passport.</small>
                 </div>
                 @if($kycPassport->file !== null)
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="1" id="contractor-kyc-passport-delete" name="contractor-kyc-passport-delete">
                     <label class="form-check-label" for="contractor-kyc-passport-delete">
-                        Delete existing passport attachment (cannot be displayed publically)
+                        Delete existing attachment
                     </label>
                 </div>
                 @endif
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="contractor-kyc-address">Address verification</label>
-                    <input type="file" class="form-control-file" id="contractor-kyc-address" name="contractor-kyc-address">
-                    <small class="form-text text-muted">A logo displayed next to your public contractor record.</small>
+                    <label for="contractor-kyc-address">Selfie</label>
+                    <input type="file" class="form-control-file" id="contractor-kyc-address" name="contractor-kyc-selfie">
+                    <small class="form-text text-muted">A selfie with you holding up your passport.</small>
                 </div>
-                @if($kycAddress->file !== null)
+                @if($kycSelfie->file !== null)
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="1" id="contractor-kyc-address-delete" name="contractor-kyc-address-delete">
-                    <label class="form-check-label" for="contractor-kyc-address-delete">
-                        Delete existing address attachment (cannot be displayed publically)
+                    <input class="form-check-input" type="checkbox" value="1" id="contractor-kyc-selfie-delete" name="contractor-kyc-selfie-delete">
+                    <label class="form-check-label" for="contractor-kyc-selfie-delete">
+                        Delete existing attachment
                     </label>
                 </div>
                 @endif

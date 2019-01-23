@@ -33,6 +33,9 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractFeedback whereInvoiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractFeedback whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractFeedback newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractFeedback newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ContractFeedback query()
  */
 	class ContractFeedback extends \Eloquent {}
 }
@@ -59,8 +62,11 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User role($roles)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAvatar($value)
@@ -94,7 +100,10 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Contractor $contractor
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ContactDetail newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ContactDetail newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\ContactDetail onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ContactDetail query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ContactDetail whereContractorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ContactDetail whereCreatedAt($value)
@@ -128,12 +137,15 @@ namespace App{
  * @property string|null $notes_internal
  * @property string|null $website
  * @property string $voting_type
- * @property string|null $voting_from
- * @property string|null $voting_to
+ * @property \Illuminate\Support\Carbon|null $voting_start
+ * @property \Illuminate\Support\Carbon|null $voting_end
+ * @property int|null $voting_result_pro
+ * @property int|null $voting_result_contra
  * @property string|null $source_code
  * @property string|null $proposed_value
  * @property string|null $proposed_currency
  * @property string|null $logo
+ * @property string|null $forum_link
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -146,13 +158,17 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal currentStatus($names)
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Proposal onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal otherCurrentStatus($names)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereDescriptionHtml($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereForumLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereIdentCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereIntro($value)
@@ -167,12 +183,16 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereSourceCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingFrom($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingTo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingEnd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingResultContra($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingResultPro($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereVotingType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal whereWebsite($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal withAllTags($tags, $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal withAnyTags($tags, $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Proposal withAnyTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Query\Builder|\App\Proposal withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Proposal withoutTrashed()
  */
@@ -197,8 +217,11 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument currentStatus($names)
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\ProposalDocument onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument otherCurrentStatus($names)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ProposalDocument whereDeletedAt($value)
@@ -233,7 +256,10 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Contractor $contractor
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Address onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereAddressLine1($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereAddressLine2($value)
@@ -270,7 +296,10 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Reward newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Reward newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Reward onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Reward query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reward whereBlock($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reward whereCreatedAt($value)
@@ -304,8 +333,11 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument currentStatus($names)
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\KycDocument onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument otherCurrentStatus($names)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereContractorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KycDocument whereCreatedAt($value)
@@ -336,7 +368,10 @@ namespace App{
  * @property-read \App\Proposal $proposal
  * @property-read \App\User $user
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Comment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereDeletedAt($value)
@@ -383,8 +418,11 @@ namespace App{
  * @property-read \App\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor currentStatus($names)
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Contractor onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor otherCurrentStatus($names)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereBio($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contractor whereCompanyName($value)
@@ -422,7 +460,10 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\MoneyValue newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\MoneyValue newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\MoneyValue onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\MoneyValue query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\MoneyValue whereAUD($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\MoneyValue whereBTC($value)
@@ -441,11 +482,46 @@ namespace App{
 
 namespace App{
 /**
+ * App\FoundationPayment
+ *
+ * @property int $id
+ * @property int $to_pasa
+ * @property float $amount
+ * @property string $payload
+ * @property string $block
+ * @property string $ophash
+ * @property int|null $contract_id
+ * @property int $time
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contract[] $contracts
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereBlock($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereContractId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereOphash($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereToPasa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FoundationPayment whereUpdatedAt($value)
+ */
+	class FoundationPayment extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Payment
  *
  * @property-read \App\Proposal $proposal
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Payment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payment query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Query\Builder|\App\Payment withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Payment withoutTrashed()
@@ -457,35 +533,18 @@ namespace App{
 /**
  * App\Invoice
  *
- * @property int $id
- * @property string $date
- * @property int $contract_id
- * @property string $payload
- * @property string $ophash
- * @property string $value
- * @property string $currency
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Contract $contract
  * @property-read \App\Contractor $contractor
  * @property-read mixed $status
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice currentStatus($names)
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Invoice onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice otherCurrentStatus($names)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereContractId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereCurrency($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereOphash($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice wherePayload($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Invoice whereValue($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Invoice withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Invoice withoutTrashed()
  */
@@ -499,17 +558,17 @@ namespace App{
  * @property int $id
  * @property int $proposal_id
  * @property int $contractor_id
- * @property string $type
- * @property string $payout_type
+ * @property int|null $payment_id
  * @property int $needs_feedback
- * @property \Illuminate\Support\Carbon $start
- * @property \Illuminate\Support\Carbon|null $end
+ * @property \Illuminate\Support\Carbon $start_date
+ * @property \Illuminate\Support\Carbon|null $payment_date
  * @property string $total_value
- * @property string $total_currency
  * @property string|null $role
  * @property string|null $role_description
+ * @property string|null $payment_description
  * @property string|null $pasa
- * @property string|null $payload
+ * @property string|null $payload_overwrite
+ * @property string|null $tax_declaration
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -517,29 +576,33 @@ namespace App{
  * @property-read \App\Contractor $contractor
  * @property-read mixed $status
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
+ * @property-read \App\FoundationPayment|null $payment
  * @property-read \App\Proposal $proposal
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\ModelStatus\Status[] $statuses
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract currentStatus($names)
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Contract onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract otherCurrentStatus($names)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereContractorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereEnd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereNeedsFeedback($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePasa($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePayload($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePayoutType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePayloadOverwrite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePaymentDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePaymentDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract wherePaymentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereProposalId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereRoleDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereStart($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereTotalCurrency($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereTaxDeclaration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereTotalValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Contract whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contract withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Contract withoutTrashed()

@@ -52,12 +52,6 @@ class Contract extends Resource
         return [
             ID::make()->sortable(),
 
-            Select::make('Type')
-                ->options(\App\Contract::TYPES),
-
-            Select::make('Payout Type')
-                ->options(\App\Contract::PAYOUT_TYPES),
-
             Text::make('Latest Status', function () {
                 if($this->latestStatus() !== null) {
                     return \App\Contract::STATUS[(string)$this->latestStatus()];
@@ -71,14 +65,9 @@ class Contract extends Resource
                 ->hideFromIndex()
                 ->hideFromDetail(),
 
-            Select::make('total Currency')
-                ->options(\App\MoneyValue::TYPES)
-                ->hideFromIndex()
-                ->hideFromDetail(),
-
             Text::make('Value', function () {
                 if($this->total_currency !== null) {
-                    return $this->total_value . ' ' . \App\MoneyValue::TYPES[$this->total_currency];
+                    return $this->total_value;
                 }
                 return null;
             })->hideWhenCreating()->hideWhenUpdating(),
@@ -86,9 +75,9 @@ class Contract extends Resource
             Boolean::make('Needs Feedback')
                 ->hideFromIndex(),
 
-            Date::make('Start'),
+            Date::make('Start Date'),
 
-            Date::make('End'),
+            Date::make('Payment Date'),
 
             MorphMany::make('Statuses', 'statuses', Status::class)
                 ->hideFromIndex(),
@@ -101,15 +90,16 @@ class Contract extends Resource
             Textarea::make('role description')
                 ->hideFromIndex(),
 
+            Textarea::make('payment description')
+                ->hideFromIndex(),
+
             Text::make('pasa')
                 ->hideFromIndex(),
 
-            Text::make('payload')
+            Text::make('payload_overwrite')
                 ->hideFromIndex(),
 
-            BelongsTo::make('Contractor'),
-
-            HasMany::make('Invoice', 'invoices', Invoice::class),
+            BelongsTo::make('Contractor')
         ];
     }
 

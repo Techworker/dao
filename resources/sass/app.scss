@@ -22,12 +22,13 @@ $secondary:     $color-pascal !default;
 $input-btn-focus-width:       .2rem !default;
 $input-btn-focus-box-shadow:  0 0 0 $input-btn-focus-width $color-pascal-contrast !default;
 
-
 @import '~bootstrap/scss/bootstrap';
 @import './materia';
 
 @import "~medium-editor/dist/css/medium-editor.css";
 @import "~medium-editor/dist/css/themes/flat.css";
+@import "~medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css";
+@import "~medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin-frontend.css";
 
 
 @import './loading';
@@ -39,6 +40,10 @@ body {
 .navbar {
   background-color: #2f3542;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  .navbar-toggler {
+    border: none !important;
+    color: white !important;
+  }
   &.navbar-main {
     padding: 10px;
   }
@@ -55,6 +60,9 @@ body {
     &:first-child {
       padding-left: 0;
     }
+    @include media-breakpoint-down(md) {
+      padding-left: 0;
+    }
     &:after {
       position: absolute;
       top: 30%;
@@ -62,6 +70,9 @@ body {
       right: 0;
       width: 1px;
       border-right: 1px dashed #d4d4d4;
+      @include media-breakpoint-down(md) {
+        border-right: none;
+      }
       content: " ";
     }
     &:last-child:after {
@@ -197,5 +208,84 @@ section {
 }
 
 .card {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.card-link {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: $primary;
+  padding: 10px;
+  &.delete {
+    color: $red;
+  }
+  &:hover {
+    background-color: lighten($primary, 45) !important;
+    color: white;
+  }
+}
+
+.intro-box {
+  background: $primary;
+  padding: 20px;
+  color: white;
+}
+
+.item-status {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  opacity: .7;
+  padding: 4px;
+  color: white;
+  &:after {
+    padding-left: 4px;
+    content: attr(data-readable);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &.item-status-approved {
+    background-color: green;
+    i:before {
+      content: "\f00c";
+    }
+  }
+  &.item-status-kyc, &.item-status-submitted {
+    background-color: $warning;
+    i:before {
+      content: "\f085";
+    }
+  }
+  &.item-status-not_approved {
+    background-color: $primary;
+    i:before {
+      content: "\f128";
+    }
+  }
+  &.item-status-public {
+    background-color: green;
+    i:before {
+      content: "\f00c";
+    }
+  }
+
+}
+
+
+.medium-editor-insert-plugin .medium-insert-buttons button[data-addon="embeds"] {
+  display: none !important;
+}
+
+.medium-insert-images, .mediumInsert {
+  text-align: left;
+}
+.medium-insert-images .medium-insert-images-progress, .mediumInsert .medium-insert-images-progress {
+  background: none;
+  max-width: 100%;
+
+}
+
+.from-editable .medium-insert-buttons {
+  display: none !important;
 }

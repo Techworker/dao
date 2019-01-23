@@ -43,8 +43,8 @@ class ShowFormAction extends AbstractAction
             'contactPhone' => $contractor ? $contractor->contactDetails->where('type', 'phone')->first() ?? new ContactDetail(): new ContactDetail(),
             'contactFax' => $contractor ? $contractor->contactDetails->where('type', 'fax')->first() ?? new ContactDetail(): new ContactDetail(),
             'contactEmail' => $contractor ? $contractor->contactDetails->where('type', 'email')->first() ?? new ContactDetail():  new ContactDetail(),
-            'kycPassport' => $contractor->kycDocuments->where('type', KycDocument::TYPE_PASSPORT)->get(0) ?? new KycDocument(),
-            'kycAddress' => $contractor->kycDocuments->where('type', KycDocument::TYPE_ADDRESS_VERIFICATION)->get(0) ?? new KycDocument(),
+            'kycPassport' => $contractor ? $contractor->kycDocuments->where('type', KycDocument::TYPE_PHOTO_PASSPORT)->get(0) ?? new KycDocument() : new KycDocument(),
+            'kycSelfie' => $contractor ? $contractor->kycDocuments->where('type', KycDocument::TYPE_PHOTO_SELFIE)->get(0) ?? new KycDocument() : new KycDocument(),
         ]);
     }
 }

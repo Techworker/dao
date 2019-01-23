@@ -18,12 +18,14 @@ class Contractor extends Model
     use SoftDeletes, HasSlug, HasStatuses;
 
     const STATUS = [
-        'not_approved' => 'Not approved',
-        'approved' => 'Approved'
+        'not_approved' => 'Not submitted',
+        'kyc' => 'Awaiting KYC',
+        'approved' => 'Approved & KYC success'
     ];
 
     const STATUS_NOT_APPROVED = 'not_approved';
     const STATUS_APPROVED = 'approved';
+    const STATUS_KYC = 'kyc';
 
     /**
      * Get the options for generating the slug.
@@ -31,7 +33,7 @@ class Contractor extends Model
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['first_name', 'last_name', 'company_name'])
+            ->generateSlugsFrom(['public_name'])
             ->saveSlugsTo('slug');
     }
 

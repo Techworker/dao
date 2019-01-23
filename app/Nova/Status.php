@@ -66,7 +66,7 @@ class Status extends Resource
         return [
             ID::make()->sortable(),
             MorphTo::make('Model')->types([
-                Contract::class, Proposal::class
+                Contractor::class, Contract::class, Proposal::class
             ]),
             Select::make('Name')->options($options),
             Text::make('reason'),
