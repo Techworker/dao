@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2>{{$proposal->title}}</h2>
-            <p><span class="text-uppercase font-weight-bold">proposed by</span> <a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $proposal->proposerContractor, 'slug' => $proposal->proposerContractor->slug])}}">{{$proposal->proposerContractor->public_name}}</a></p>
+            <p><span class="text-uppercase font-weight-bold">initiated by</span> <a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $proposal->proposerContractor, 'slug' => $proposal->proposerContractor->slug])}}">{{$proposal->proposerContractor->public_name}}</a></p>
         </div>
     </div>
     <div class="row">
