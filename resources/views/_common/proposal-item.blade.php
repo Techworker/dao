@@ -1,6 +1,6 @@
 <?php if(!isset($colSize)) $colSize = 4; ?>
 <div class="col-md-{{$colSize}} d-flex align-items-stretch">
-    <div class="card mb-{{$colSize}}" style="width: 100%;">
+    <div class="card mb-4" style="width: 100%;">
         @if($proposal->logo !== null)
             <a href="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route(['proposal' => $proposal])}}"><img class="card-img-top" src="{{asset('storage/' . $proposal->logo)}}" alt="{{$proposal->title}}"></a>
         @endif
