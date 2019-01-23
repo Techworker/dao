@@ -21,9 +21,9 @@
         <a class="navbar-brand" href="/">
             <img src="/images/logo_white.png"> Pasconomy
         </a>
-        <ul class="nav navbar-nav navbar-right navbar-main">
+        <!--ul class="nav navbar-nav navbar-right navbar-main">
             <li><span class="badge badge-warning p-2">Voting active for<br />PHP Library</span></li>
-        </ul>
+        </ul-->
     </div>
 </nav>
 <nav class="navbar navbar-expand-md navbar-light navbar-sub">
