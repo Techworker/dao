@@ -19,6 +19,6 @@ class FoundationPayment extends Model
      */
     public function contract()
     {
-        return $this->hasMany(Contract::class);
+        return $this->belongsTo(Contract::class);
     }
 }

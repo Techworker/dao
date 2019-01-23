@@ -18,7 +18,7 @@
             <td>{{$payment->amount}}</td>
             <td style="word-break: break-all">{{$payment->payload}}</td>
             <td>
-                <?php var_dump($payment->contracts); ?>
+                <?php var_dump($payment->contract->id); ?>
             </td>
         </tr>
 
