@@ -121,7 +121,7 @@
                                     <a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $datum['contractor'], 'slug' => $datum['contractor']->slug])}}" class="font-weight-bold">{{$datum['contractor']->public_name}}</a>
                                 </td>
                                 <td>
-                                    <a href="{{\App\Http\Actions\Proposal\ShowDetailAction::route(['proposal' => $datum['proposal']])}}" class="font-weight-bold">{{$datum['proposal']->title}}</a>
+                                    <a href="{{\App\Http\Actions\Proposal\ShowDetailAction::route(['proposal' => $datum['proposal'], 'slug' => $datum['proposal']->slug])}}" class="font-weight-bold">{{$datum['proposal']->title}}</a>
                                 </td>
                                 <td>
                                     {{$datum['contract']->role}}<br />
