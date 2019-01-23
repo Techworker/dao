@@ -158,13 +158,13 @@ class SyncPayments extends Command
      */
     public function handle()
     {
-        $latestPayment = FoundationPayment::orderBy('time', 'DESC')->first();
-        $block = 0;
-        if($latestPayment !== null) {
-            $block = $latestPayment->block - 1000;
-        }
-
         foreach([1001, 1000, 1002] as $acc) {
+            $latestPayment = FoundationPayment::where('from_pasa', $acc)->orderBy('time', 'DESC')->first();
+            $block = 0;
+            if($latestPayment !== null) {
+                $block = $latestPayment->block - 1000;
+            }
+
             $ops = $this->getAccountOperations('http://127.0.0.1:4003', $acc, [1], $block);
             foreach ($ops as $op)
             {
