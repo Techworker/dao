@@ -6,8 +6,8 @@
         <div class="col-md-9">
             @foreach($proposals as $type => $subProposals)
                 <h2 class="mb-3 mt-3">
-                @if($type === "public")
-                    Submitted and Public Projects
+                @if($type === "public review")
+                    Public Review Projects
                 @elseif($type === "all")
                     All Projects
                 @elseif($type === "approved")
@@ -39,7 +39,7 @@
                     <span class="badge badge-{!! $status === 'all' ? 'contrast' : 'main' !!}">{{$counts['all']}}</span>
                 </a>
                 <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_PUBLIC_REVIEW])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_PUBLIC_REVIEW ? ' active' : '' !!}">
-                    Submitted & Public
+                    Public Review
                     <span class="badge badge-{!! $status === \App\Proposal::STATUS_PUBLIC_REVIEW ? 'contrast' : 'main' !!}">{{$counts[\App\Proposal::STATUS_PUBLIC_REVIEW]}}</span>
                 </a>
                 <a href="{{\App\Http\Actions\Proposal\ShowListAction::route(['status' => \App\Proposal::STATUS_APPROVED])}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{!! $status === \App\Proposal::STATUS_APPROVED ? ' active' : '' !!}">
