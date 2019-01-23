@@ -190,7 +190,7 @@ class SyncPayments extends Command
         $payments = FoundationPayment::all();
         $contracts = Contract::all();
         foreach($payments as $payment) {
-            $subContracts = $contracts->where('pasa', '=', $payment->to_pasa)->get();
+            $subContracts = $contracts->where('pasa', '=', $payment->to_pasa);
             foreach ($subContracts as $subContract) {
                 if ($subContract->payload() === $payment->payload) {
                     $payment->contract_id = $subContract->id;
