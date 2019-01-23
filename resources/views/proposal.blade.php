@@ -80,7 +80,7 @@
                     <p>
                         @if($proposal->voting_type === $proposal::VOTING_TYPE_BLOCKCHAIN)
                             The vote will happen on the blockchain.
-                            @elseif($proposal->voting_type === $proposal::VOTING_NONE)
+                            @elseif($proposal->voting_type === $proposal::VOTING_TYPE_NONE)
                                 No voting setup yet.
                     @else
                         The vote will happen on discord in the #polls channel.
