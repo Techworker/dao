@@ -23,7 +23,6 @@ class SaveAction extends AbstractAction
     {
         /** @var User $user */
         $user = \Auth::user();
-        $contractor = $user->contractors->first();
 
         $isNew = false;
         if($proposal === null) {
@@ -47,7 +46,7 @@ class SaveAction extends AbstractAction
             }
         }*/
 
-        $proposal->proposer_contractor_id = $contractor->id;
+        $proposal->proposer_contractor_id = $request->get('proposal-contractor');
         $proposal->logo = $logo;
         $proposal->title = $request->get('proposal-title');
         $proposal->intro = $request->get('proposal-intro');
