@@ -20,7 +20,7 @@
             <td>
                 @if($payment->contract !== null)
                     <a href="{{\App\Http\Actions\Contractor\ShowAction::route(['contractor' => $payment->contract->contractor, 'slug' => $payment->contract->contractor->slug])}}" class="font-weight-bold">{{$payment->contract->contractor->public_name}}</a><br />
-                        <a href="{{\App\Http\Actions\Profile\Proposal\ShowFormAction::route(['proposal' => $payment->contract->proposal])}}" class="font-weight-bold">{{$payment->contract->proposal->title}}
+                        <a href="{{\App\Http\Actions\Proposal\ShowDetailAction::route(['proposal' => $payment->contract->proposal, 'slug' => $payment->contract->proposal->slug])}}" class="font-weight-bold">{{$payment->contract->proposal->title}}
                 @else
                     Unknown
                 @endif
