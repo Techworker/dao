@@ -24,7 +24,7 @@
             <label for="proposal-status">Contractor association</label>
             <select class="form-control" id="proposal-contractor" name="proposal-contractor">
                 @foreach($contractors as $contractor)
-                    <option value="{{$contractor->id}}">{{$contractor->publicName()}} ({{$contractor->public_name}})</option>
+                    <option value="{{$contractor->id}}"{!! $contractor->id === $proposal->proposer_contractor_id ? ' selected="selected"' : ''!!}>{{$contractor->publicName()}} ({{$contractor->public_name}})</option>
                 @endforeach
             </select>
             <div class="invalid-feedback"></div>
